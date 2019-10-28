@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>小松的博客</title>
+    <link>/</link>
+    <description>Recent content on 小松的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 28 Oct 2019 10:55:57 +0800</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>如何使用Hugo搭建个人博客</title>
+      <link>/posts/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Mon, 28 Oct 2019 10:55:57 +0800</pubDate>
+      
+      <guid>/posts/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</guid>
+      <description>Hugo是由Go语言实现的静态网站生成器，可以快速搭建一套静态展示类型的网站。并且自带高性能服务器，热部署等特性，是不想多花精力又想构建个人博客的极佳选择。本文将介绍如何使用Hugo搭建个人博客及如何发布到Github并生成Github pages。
+快速搭建博客 进入Hugo 官网，点击Quick Start快速开始。
+安装Hugo Windows安装方式  去Hugo releases页面下载hugo_xxx_Windows-64bit.zip 解压，把hugo.exe放到D:\Software\hugo\hugo.exe 把D:\Software\hugo加到PATH 重启终端，运行hugo version 查看版本  Mac安装方式  brew install hugo hugo version  建立新站点 输入命令
+hugo new site github.io-creator  在当前文件夹中创建一个新的Hugo网站github.io-creator。
+添加主题 依次输入下面四条命令，下载并使用主题ananke。
+cd github.io-creator git init git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke echo &#39;theme = &amp;quot;ananke&amp;quot;&#39; &amp;gt;&amp;gt; config.toml  更换主题可到Hugo的官方网站浏览下载。
+创建文章 输入命令
+hugo new posts/我的博客.md  Hugo会在content目录下创建post目录，在post目录下创建scala-learning-pattern-matching.md文件。之后打开md文件，里面已经有些内容：
+这里的的draft默认状态为true,需要修改为false才能发布。
+查看生成的文章 草稿状态下 输入命令hugo sever -D
+非草稿状态下 输入hugo sever
+可得到如下结果：</description>
+    </item>
+    
+  </channel>
+</rss>

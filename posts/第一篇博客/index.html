@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		
+
+		<title>如何使用Hugo搭建个人博客</title>
+
+		
+		<link rel="stylesheet" href="/css/colors-preference.min.a65e4173e6288241b66a095ab4a0d5718d726f5c8d5f0722d9bd283ead128a85.css">
+
+		
+	</head>
+	<body>
+		<header id="header">
+			<h1><a href="">小松的博客</a></h1>
+			<p>A wizard is never late</p>
+		</header>
+
+		<div id="page">
+			<div id="sidebar">
+				<nav>
+	
+		<ul class="nav">
+			
+				<li><a href="/index.xml"><span>Feed</span></a></li>
+			
+				<li><a href="https://github.com/bake/solar-theme-hugo/"><span>Repository</span></a></li>
+			
+		</ul>
+	
+		<ul class="nav">
+			
+				<li><a href="https://themes.gohugo.io/theme/solar-theme-hugo/"><span>Demo</span></a></li>
+			
+				<li><a href="https://themes.gohugo.io/solar-theme-hugo/"><span>Hugo</span></a></li>
+			
+		</ul>
+	
+</nav>
+
+			</div>
+
+			<div id="content">
+				
+	<article class="post">
+		<h1><a href="/posts/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">如何使用Hugo搭建个人博客</a> </h1>
+
+		<div class="post-content">
+
+<p>Hugo是由Go语言实现的静态网站生成器，可以快速搭建一套静态展示类型的网站。并且自带高性能服务器，热部署等特性，是不想多花精力又想构建个人博客的极佳选择。本文将介绍如何使用Hugo搭建个人博客及如何发布到Github并生成Github pages。</p>
+
+<h2 id="快速搭建博客">快速搭建博客</h2>
+
+<p>进入<a href="https://gohugo.io/">Hugo 官网</a>，点击Quick Start快速开始。</p>
+
+<h3 id="安装hugo">安装Hugo</h3>
+
+<h4 id="windows安装方式">Windows安装方式</h4>
+
+<ul>
+<li>去<a href="https://gohugo.io/categories/releases">Hugo releases页面</a>下载hugo_xxx_Windows-64bit.zip</li>
+<li>解压，把hugo.exe放到D:\Software\hugo\hugo.exe</li>
+<li>把D:\Software\hugo加到PATH</li>
+<li>重启终端，运行<code>hugo version</code> 查看版本</li>
+</ul>
+
+<h4 id="mac安装方式">Mac安装方式</h4>
+
+<ul>
+<li>brew install hugo</li>
+<li>hugo version</li>
+</ul>
+
+<h3 id="建立新站点">建立新站点</h3>
+
+<p>输入命令</p>
+
+<pre><code>hugo new site github.io-creator  
+</code></pre>
+
+<p>在当前文件夹中创建一个新的Hugo网站github.io-creator。</p>
+
+<h3 id="添加主题">添加主题</h3>
+
+<p>依次输入下面四条命令，下载并使用主题ananke。</p>
+
+<pre><code>cd github.io-creator  
+git init  
+git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke      
+echo 'theme = &quot;ananke&quot;' &gt;&gt; config.toml
+</code></pre>
+
+<p>更换主题可到Hugo的<a href="https://themes.gohugo.io/">官方网站</a>浏览下载。</p>
+
+<h3 id="创建文章">创建文章</h3>
+
+<p>输入命令</p>
+
+<pre><code>hugo new posts/我的博客.md  
+</code></pre>
+
+<p>Hugo会在content目录下创建post目录，在post目录下创建scala-learning-pattern-matching.md文件。之后打开md文件，里面已经有些内容：<br />
+<img src="/2.jpg" alt="" /><br />
+这里的的draft默认状态为true,需要修改为false才能发布。</p>
+
+<h3 id="查看生成的文章">查看生成的文章</h3>
+
+<p>草稿状态下 输入命令<code>hugo sever -D</code><br />
+非草稿状态下 输入<code>hugo sever</code><br />
+可得到如下结果：</p>
+
+<p><img src="/3.jpg" alt="" /><br />
+在浏览器中打开网址即可查看生成的博客页面。</p>
+
+<h3 id="更换主题">更换主题</h3>
+
+<p>进入Hugo<a href="https://themes.gohugo.io/">主题官网</a>，浏览并下载主题。<br />
+以下载hugo-goa主题为例，将hugo-goa主题下载到themes目录下。</p>
+
+<pre><code>cd themes
+git clone https://github.com/shenoybr/hugo-goa
+</code></pre>
+
+<p>接下来是应用主题，hugo的全局配置文件是项目根目录下的config.toml，一般来说每个主题样式都有自己独特的配置项及功能，因此config.toml推荐使用所选主题自带的来覆盖本地。每个主题一般会在自己项目的exampleSite目录中留有最佳实践，该主题的配置模板也在里面。</p>
+
+<pre><code>cd myblog/thems/beautifulhugo/exampleSite
+cp config.toml ../../../
+</code></pre>
+
+<p>覆盖完后查看config.toml文件，内容非常多，但只需修改其中通用的几项，详情可以查看项目文档。</p>
+
+<h3 id="创建静态页面">创建静态页面</h3>
+
+<p>回到github.io-creator目录下执行命令</p>
+
+<pre><code>hugo
+</code></pre>
+
+<p>一个<code>public</code>目录将会被创建，我们需再手动创建一个<code>.gitignore</code>文件，将<code>/public/</code>写入其中保存，这样就可使git操作忽略public文件。</p>
+
+<h3 id="发布到github">发布到GitHub</h3>
+
+<p>Hugo将编译所有文件并输出到public目录，需要在github上创建repository，名字就是<code>&lt;用户名&gt;.github.io</code>，创建完后，返回本地命令行，进入public目录，执行以下命令：</p>
+
+<pre><code>git init
+git add .
+git commit -m &quot;Initial commit.&quot;
+git remote add origin git@github.com:&lt;用户名&gt;/&lt;用户名&gt;.github.io.git
+git push -u origin master
+</code></pre>
+
+<p>稍等片刻后，打开&lt;你的用户名&gt;.github.io网址，就可以看到你的个人网站了。</p>
+</div>
+
+		<p class="meta">Posted on <span class="postdate">28. October 2019</span></p>
+	</article>
+
+			</div>
+
+			<footer id="footer">
+				<p class="copyright">
+					
+						Powered by <a href="https://gohugo.io/">Hugo</a> and the
+						<a href="https://github.com/bake/solar-theme-hugo">Solar</a>-theme.
+					
+				</p>
+			</footer>
+		</div>
+
+		
+	</body>
+</html>
