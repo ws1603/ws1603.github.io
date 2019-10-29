@@ -5,10 +5,19 @@
     <link>/</link>
     <description>Recent content on 小松的博客</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 28 Oct 2019 10:55:57 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 29 Oct 2019 11:53:59 +0800</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java、Maven的包管理</title>
+      <link>/posts/javamaven%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Tue, 29 Oct 2019 11:53:59 +0800</pubDate>
+      
+      <guid>/posts/javamaven%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86/</guid>
+      <description> Java的包管理机制 Maven的包管理机制 </description>
+    </item>
     
     <item>
       <title>如何使用Hugo搭建个人博客</title>
