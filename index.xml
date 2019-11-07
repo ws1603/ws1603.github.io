@@ -27,11 +27,11 @@ Maven的包管理机制 Maven的仓库
 当我们需要一个包时，Maven按照我们给出的编号，去仓库查找这个包，并根据依赖找到所有的包下载到本地，然后拼接成一个很长的classpath，以供JVM查找加载。
 作为依赖性的自动管理工具，Maven绝对不允许最终的classpath出现同名不同版本的jar包，其解决依赖冲突的原则是：距离本项目最近的胜出 。 但这一原则并不能总是让我们得到需要的包，当看到这些异常的的时候，说明Maven解决不了这个包冲突，需要靠手动解决。
 AbstractMethodError NoClassDefFoundError ClassNotFoundException LinkageError  包管理冲突的解决 以运行一个程序得到如下异常为例:
-首先对冲突的包进行定位，可以从Maven的Dependency中找到对应的两个包，可以看到此项目中只有两个org.springframework:spring-web的包，5.18版本不受其他包所依赖，距离本项目较4.36版本更近，所以Maven是采用了5.18版本，所以我们可以很快地定位到运行项目缺失的类方法是在4.36版本中。
+首先对冲突的包进行定位，可以从Maven的Dependency中找到对应的两个包，可以看到此项目中只有两个org.springframework:spring-web的包，5.1.8版本不受其他包所依赖，距离本项目较4.3.6版本更近，所以Maven是采用了5.1.8版本，所以我们可以很快地定位到运行项目缺失的类方法是在4.3.6版本中。
 但是，如果这里发生冲突的包不止有两个呢？这时，就需要到Maven的中央仓库去查看源码进行定位了。
 定位到了发生冲突的包，那么接下来就该解决问题了。
-方法一 在最近处添加一个新的包 在pom.xml文件中引入一个4.36版本的dependency即可
-&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-web&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;4.3.6.RELEASE&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;compile&amp;lt;/scope&amp;gt; &amp;lt;/dependency&amp;gt;  方法二 消除与其冲突的包 如果5.18版本包不被其他包所依赖，直接在pom.xml文件中将其dependency删去或者注释掉即可；如果5.18版本包受其他包所依赖，可在上级包的dependency中添加如下内容即可将5.18版本包从其中排除不受依赖。
+方法一 在最近处添加一个新的包 在pom.xml文件中引入一个4.3.6版本的dependency即可
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-web&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;4.3.6.RELEASE&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;compile&amp;lt;/scope&amp;gt; &amp;lt;/dependency&amp;gt;  方法二 消除与其冲突的包 如果5.1.8版本包不被其他包所依赖，直接在pom.xml文件中将其dependency删去或者注释掉即可；如果5.1.8版本包受其他包所依赖，可在上级包的dependency中添加如下内容即可将5.1.8版本包从其中排除不受依赖。
 &amp;lt;exclusions&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-web&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;/exclusions&amp;gt;  </description>
     </item>
     
