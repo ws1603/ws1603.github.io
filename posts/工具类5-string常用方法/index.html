@@ -13,7 +13,7 @@
 <base href="https://wangsong.site/">
 
 <title>
-  小松的学习笔记 - 工具类3 日期相关&#43;String 
+  小松的学习笔记 - 工具类5 String常用方法 
 </title>
 
 <meta name="generator" content="Hugo 0.58.3" />
@@ -44,7 +44,7 @@
 
 
 <header class="row text-left title">
-  <h1 class="title">工具类3 日期相关&#43;String</h1>
+  <h1 class="title">工具类5 String常用方法</h1>
 </header>
 <section id="category-pane" class="row meta">
   
@@ -59,7 +59,84 @@
 <section id="content-pane" class="row">
   <div class="col-md-12 text-justify content">
     
-    
+    <pre><code>    boolean = equals(Object obj);//继承自Object,equals默认比较地址,被String重写了,比较两个字符串内容
+
+    int = hashCode();//继承自Object,被String重写,将当前字符串的每一个cahr元素拆开 乘以31求和
+
+    int = compareTo(String str);//实现自Comparable接口，按字典(Unicode编码)索引顺序比较
+    str1.compareTo(str2);
+    //按照两个字符串长度较短的那个作为比较循环的次数
+    //挨个比较元素 str1[i]-str2[i]不为0就返回
+    //如果循环过后发现所有的字符都一样 len1-len2
+    //返回0表示两个字符相等
+
+    String = toString();//继承自Object,被String重写了,不在输出 类名@hashCode,而是字符串中的字面值
+
+    char = charAt(int index);//&quot;abc&quot; 0-&gt;'a'
+    //返回给定index对应位置的那个char值
+
+    int = codePointAt(int index);//&quot;abc&quot; 0-&gt;97
+    //返回给定index对应位置的那个char所对应的code码
+
+    int = length();//返回字符串的长度(其实就是底层char[] value属性的长度)
+    注意:区别数组length是属性 String的length()为方法 集合size()为方法
+
+    String = concat(String);//将给定的字符串拼接在当前字符串之后
+    //此处要注意String对象的不可变特性
+    String str = &quot;ab&quot;;
+    str = str.concat(&quot;c&quot;);//将str重新赋值才能得到&quot;abc&quot;
+    //concat拼接字符串比+拼接性能高
+
+    String str = &quot;a&quot;+&quot;b&quot;+&quot;c&quot;+&quot;d&quot;;//数学计算  拼接符号
+    system.out.println(str);//过程中产生了几个String对象?  字符串常量池7个
+    //对象1-&gt;value[] a  &quot;a&quot;
+    //对象2-&gt;value[] b  &quot;b&quot;
+    //对象3-&gt;value[] {a,b}  &quot;ab&quot;
+    //对象4-&gt;value[] c  &quot;c&quot;
+    //对象5-&gt;value[] {a,b,c}   &quot;abc&quot;
+    //对象6-&gt;value[] d  &quot;d&quot;
+    //对象7-&gt;value[] {a,b,c,d}  &quot;abcd&quot;
+
+    boolean = contains(CharSequence s);//判断给定的s是否在字符串中存在
+
+    starstWith(String prefix);
+    endsWith(String suffix);
+    //判断次字符串是否以xx开头/结尾
+
+    byte[] = getBytes();
+    char[] = toCharArray();
+    //将当前子字符串转化成数组
+
+    int = indexOf(int/String str[,int fromIndex]);//四个方法重载
+    //找寻给定的元素在字符串中第一次初选的索引位置,若字符串不存在则返回-1
+    int = lastIndexOf(int/String str[,int fronIndex]);
+    //找寻给定的元素在字符串中最后一次出现的索引位置,若不存在则返回-1
+
+    boolean = isEmpty();
+    //判断当前字符串是否为空字符串(length是否为0)
+    //注意与null之间的区别
+
+    replace(target,replacement);
+    replaceAll(target,replacement);//前两个所有出现的都能换
+    replaceFirst(target,replacement);//第三个只换第一次出现的
+    //将给定的字符串替换成另外的字符串
+
+    String[] = split(String regex[,int limit]);//按照给定的表达式将原来的字符串拆分开 &quot;a-b-c-d&quot; &quot;-&quot;
+
+    String = substring(int beginIndex[,int endIndex]); //[beginIndex,endIndex)
+    //将当前的字符串截取一部分,若ebdIndex不写 则默认到字符串最后
+
+    String = tpUpperCase();
+    String = tpLowerCase();
+    //将全部字符串转换成大写/小写
+
+    String = trim();
+    //去掉字符串前后多余的空格
+
+    boolean = matches(String regex);//匹配正则表达式
+    //regular expression 正则表达式
+</code></pre>
+
   </div>
 </section>
 <section id="tag-pane" class="row meta">
@@ -101,13 +178,13 @@
 <section id="menu-pane" class="row menu text-center">
   
   
-  <span><a class="menu-item" href="https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB2-%E6%95%B0%E5%AD%A6%E7%9B%B8%E5%85%B3/">&lt; prev | </a></span>
+  <span><a class="menu-item" href="https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB4-string%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%89%B9%E6%80%A7%E5%8F%8A%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/">&lt; prev | </a></span>
   
   
   <span><a class="menu-item" href="/posts">posts</a></span>
   
   
-  <span><a class="menu-item" href="https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB4-string%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%89%B9%E6%80%A7%E5%8F%8A%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/"> | next &gt;</a></span>
+  <span><a class="menu-item" href="https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB6-string%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E7%BB%83%E4%B9%A0/"> | next &gt;</a></span>
   
   
   <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>

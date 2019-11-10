@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="description" content="Simple minimalist theme">
+<meta name="keywords" content="minimalist,blog,goa,hugo,developer">
+
+<base href="https://wangsong.site/">
+
+<title>
+  小松的学习笔记 - 工具类4 String不可变特性及常用方法 
+</title>
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://wangsong.site/css/main.css">
+<link rel="stylesheet" href="https://wangsong.site/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="zh_CN">
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">工具类4 String不可变特性及常用方法</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON NOV 10, 2019 
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    
+
+<p>String类-&gt;引用类型  java.lang包</p>
+
+<h4 id="常见的string笔试题">常见的String笔试题</h4>
+
+<pre><code>== equals方法的区别     
+String的不可变特性
+StringBuffer与StringBuilder区别 
+String对象的存储  
+String中常用的方法*  
+</code></pre>
+
+<h4 id="1-存在哪-java-lang包">1. 存在哪 java.lang包</h4>
+
+<p>没有任何继承关系，实现三个接口  <code>Serializable</code>,<code>CharSequence</code>,<code>Comparable&lt;&gt;</code></p>
+
+<h4 id="2-如何构建对象">2. 如何构建对象</h4>
+
+<pre><code>    String str = &quot;abc&quot;;//直接将字符串常量赋值给str  (字符串常量池)
+    String str = new String();//String str = &quot;&quot;;无参数构造方法创建空的对象
+    String str = new String(&quot;abc&quot;);//String str = &quot;abc&quot;;带String参数的构造方法创建对象
+    String str = new String(byte[]);//将数组中的每一个元素转化成对应的char 组合成String     
+    String str = new String(char[]);//将数组中的每一个char元素拼接成String
+    String str = new String(&quot;hello&quot;,1,3);//str=&quot;ell&quot;;  String的重载，从一号向右偏移三位拼接    
+</code></pre>
+
+<h4 id="3-equals方法的区别">3. == equals方法的区别</h4>
+
+<ul>
+<li>==可以比较基本类型，可以比较引用类型。比较基本类型比较值，比较引用类型比较地址</li>
+<li>equals只能比较引用类型(方法)，默认比较地址this==obj。如果想要改变其比较规则，可以重写equals方法。通常重写equals方法时会伴随着重写hashCode方法</li>
+</ul>
+
+<h4 id="4-string的不可变特性">4. String的不可变特性*</h4>
+
+<pre><code>    体现在两个地方:长度和内容 
+    private final char value[]; // 在String类中包含一个数组value,存储String中的每一个字符
+    长度-&gt;final修饰的数组,数组长度本身不变,final修饰数组的地址也不变 
+    内容-&gt;private修饰的属性,不能在类的外部访问 
+</code></pre>
+
+<h4 id="5-常用的方法">5. 常用的方法**</h4>
+
+<pre><code>    boolean = equals(Object obj);//继承自Object,equals默认比较地址,被String重写了,比较两个字符串内容
+
+    int = hashCode();//继承自Object,被String重写,将当前字符串的每一个cahr元素拆开 乘以31求和
+
+    int = compareTo(String str);//实现自Comparable接口，按字典(Unicode编码)索引顺序比较
+    str1.compareTo(str2);
+    //按照两个字符串长度较短的那个作为比较循环的次数
+    //挨个比较元素 str1[i]-str2[i]不为0就返回
+    //如果循环过后发现所有的字符都一样 len1-len2
+    //返回0表示两个字符相等
+
+    String = toString();//继承自Object,被String重写了,不在输出 类名@hashCode,而是字符串中的字面值
+
+    char = charAt(int index);//&quot;abc&quot; 0-&gt;'a'
+    //返回给定index对应位置的那个char值
+
+    int = codePointAt(int index);//&quot;abc&quot; 0-&gt;97
+    //返回给定index对应位置的那个char所对应的code码
+
+    int = length();//返回字符串的长度(其实就是底层char[] value属性的长度)
+    注意:区别数组length是属性 String的length()为方法 集合size()为方法
+
+    String = concat(String);//将给定的字符串拼接在当前字符串之后
+    //此处要注意String对象的不可变特性
+    String str = &quot;ab&quot;;
+    str = str.concat(&quot;c&quot;);//将str重新赋值才能得到&quot;abc&quot;
+    //concat拼接字符串比+拼接性能高
+
+    String str = &quot;a&quot;+&quot;b&quot;+&quot;c&quot;+&quot;d&quot;;//数学计算  拼接符号
+    system.out.println(str);//过程中产生了几个String对象?  字符串常量池7个
+    //对象1-&gt;value[] a  &quot;a&quot;
+    //对象2-&gt;value[] b  &quot;b&quot;
+    //对象3-&gt;value[] {a,b}  &quot;ab&quot;
+    //对象4-&gt;value[] c  &quot;c&quot;
+    //对象5-&gt;value[] {a,b,c}   &quot;abc&quot;
+    //对象6-&gt;value[] d  &quot;d&quot;
+    //对象7-&gt;value[] {a,b,c,d}  &quot;abcd&quot;
+
+    boolean = contains(CharSequence s);//判断给定的s是否在字符串中存在
+
+    starstWith(String prefix);
+    endsWith(String suffix);
+    //判断次字符串是否以xx开头/结尾
+
+    byte[] = getBytes();
+    char[] = toCharArray();
+    //将当前子字符串转化成数组
+
+    int = indexOf(int/String str[,int fromIndex]);//四个方法重载
+    //找寻给定的元素在字符串中第一次初选的索引位置,若字符串不存在则返回-1
+    int = lastIndexOf(int/String str[,int fronIndex]);
+    //找寻给定的元素在字符串中最后一次出现的索引位置,若不存在则返回-1
+
+    boolean = isEmpty();
+    //判断当前字符串是否为空字符串(length是否为0)
+    //注意与null之间的区别
+
+    replace(target,replacement);
+    replaceAll(target,replacement);//前两个所有出现的都能换
+    replaceFirst(target,replacement);//第三个只换第一次出现的
+    //将给定的字符串替换成另外的字符串
+
+    String[] = split(String regex[,int limit]);//按照给定的表达式将原来的字符串拆分开 &quot;a-b-c-d&quot; &quot;-&quot;
+
+    String = substring(int beginIndex[,int endIndex]); //[beginIndex,endIndex)
+    //将当前的字符串截取一部分,若ebdIndex不写 则默认到字符串最后
+
+    String = tpUpperCase();
+    String = tpLowerCase();
+    //将全部字符串转换成大写/小写
+
+    String = trim();
+    //去掉字符串前后多余的空格
+
+    boolean = matches(String regex);
+    //regular expression 正则表达式
+</code></pre>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-shenoybr-github-io-hugo-goa-demo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB3-%E6%97%A5%E6%9C%9F%E7%9B%B8%E5%85%B3&#43;string/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/posts">posts</a></span>
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB5-string%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/"> | next &gt;</a></span>
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">© 2019. 王崧. <a href="http://creativecommons.org/licenses/by/3.0/">Some Rights Reserved</a>.</h6>
+  
+  <h6 class="text-center powered">Powered by <a href="https://gohugo.io/">Hugo  v0.58.3</a> &amp; <a href="https://github.com/shenoybr/hugo-goa">Goa</a>.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+

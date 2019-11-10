@@ -6,10 +6,69 @@
     <description>Recent content in Posts on 小松的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Sun, 10 Nov 2019 09:43:16 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 10 Nov 2019 09:45:24 +0800</lastBuildDate>
     
 	<atom:link href="https://wangsong.site/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>工具类7 StringBuffer&#43;StringBuilder&#43;Regex</title>
+      <link>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB7-stringbuffer&#43;stringbuilder&#43;reqex/</link>
+      <pubDate>Sun, 10 Nov 2019 09:45:24 +0800</pubDate>
+      
+      <guid>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB7-stringbuffer&#43;stringbuilder&#43;reqex/</guid>
+      <description>字符串相关的类 java.lang包
+String  实现接口Serializable,CharSequence,Comparable
+ 非常特殊的类 可以像常量一样创建对象 String str=&amp;quot;abc&amp;quot;;
+ 内存存储 &amp;ldquo;abc&amp;rdquo;对象 char[] value
+ String不可变特性 private final char[] value;
+ 频繁的修改其内容的时候，性能很不好
+  StringBuffer/StringBuilder  所属的包 java.lang包
+ 默认继承AbstractStringBuilder 间接继承Object 实现接口 Serializable,CharSequence,Appendable
+StringBuffer/StringBuilder 没有compareTo方法
+StringBuffer/StringBuilder含有一个String没有的方法append(); 拼接
+ 特性
+可变字符串 char[] value， 动态扩容
+ 对象的构建
+//无参数构造方法 构建一个默认长度16个空间的对象 StringBuilder builder = new StringBuilder(); //利用给定的参数 构建一个自定义长度空间对象 char[] StringBuilder builder = new StringBuilder(20); //利用带String参数的构造方法 默认数组长度+16个 StringBuilder builder = new StringBuilder(&amp;quot;abc&amp;quot;);  StringBuilder中常用的方法</description>
+    </item>
+    
+    <item>
+      <title>工具类6 String常用方法练习</title>
+      <link>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB6-string%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E7%BB%83%E4%B9%A0/</link>
+      <pubDate>Sun, 10 Nov 2019 09:44:47 +0800</pubDate>
+      
+      <guid>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB6-string%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E7%BB%83%E4%B9%A0/</guid>
+      <description>小任务(以下任务要求设计成方法)
+1.设计一个方法 将字符串反转 ok&amp;ndash;&amp;gt;ko
+2.设计一个方法 将给定字符串的正序和反序进行连接 ok&amp;ndash;&amp;gt;okko
+3.设计一个方法 判断给定字符串是否是回文 abccba abcba
+4.设计一个方法 将给定字符串右移x位置 (helloword,2)&amp;ndash;&amp;gt;ldhellowor
+5.设计一个方法 寻找若干字符串中最长的那个 ab,abc,abcd&amp;ndash;&amp;gt;abcd
+6.设计一个方法 统计给定字母在字符串中出现的次数 &amp;ldquo;this is a test of java&amp;rdquo;,&amp;ldquo;a&amp;rdquo;&amp;ndash;&amp;gt;3
+7.设计一个方法 将给定的字符串每一个首字母大写 &amp;ldquo;this is a test of java&amp;rdquo;&amp;ndash;&amp;gt;&amp;ldquo;This Is A Test Of Java&amp;rdquo;
+8.设计一个方法 获取给定字符串中的全部数字 &amp;ldquo;za1o1zbp24tcq&amp;rdquo;&amp;ndash;&amp;gt;1124</description>
+    </item>
+    
+    <item>
+      <title>工具类5 String常用方法</title>
+      <link>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB5-string%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sun, 10 Nov 2019 09:44:21 +0800</pubDate>
+      
+      <guid>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB5-string%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/</guid>
+      <description> boolean = equals(Object obj);//继承自Object,equals默认比较地址,被String重写了,比较两个字符串内容 int = hashCode();//继承自Object,被String重写,将当前字符串的每一个cahr元素拆开 乘以31求和 int = compareTo(String str);//实现自Comparable接口，按字典(Unicode编码)索引顺序比较 str1.compareTo(str2); //按照两个字符串长度较短的那个作为比较循环的次数 //挨个比较元素 str1[i]-str2[i]不为0就返回 //如果循环过后发现所有的字符都一样 len1-len2 //返回0表示两个字符相等 String = toString();//继承自Object,被String重写了,不在输出 类名@hashCode,而是字符串中的字面值 char = charAt(int index);//&amp;quot;abc&amp;quot; 0-&amp;gt;&#39;a&#39; //返回给定index对应位置的那个char值 int = codePointAt(int index);//&amp;quot;abc&amp;quot; 0-&amp;gt;97 //返回给定index对应位置的那个char所对应的code码 int = length();//返回字符串的长度(其实就是底层char[] value属性的长度) 注意:区别数组length是属性 String的length()为方法 集合size()为方法 String = concat(String);//将给定的字符串拼接在当前字符串之后 //此处要注意String对象的不可变特性 String str = &amp;quot;ab&amp;quot;; str = str.concat(&amp;quot;c&amp;quot;);//将str重新赋值才能得到&amp;quot;abc&amp;quot; //concat拼接字符串比+拼接性能高 String str = &amp;quot;a&amp;quot;+&amp;quot;b&amp;quot;+&amp;quot;c&amp;quot;+&amp;quot;d&amp;quot;;//数学计算 拼接符号 system.out.println(str);//过程中产生了几个String对象? 字符串常量池7个 //对象1-&amp;gt;value[] a &amp;quot;a&amp;quot; //对象2-&amp;gt;value[] b &amp;quot;b&amp;quot; //对象3-&amp;gt;value[] {a,b} &amp;quot;ab&amp;quot; //对象4-&amp;gt;value[] c &amp;quot;c&amp;quot; //对象5-&amp;gt;value[] {a,b,c} &amp;quot;abc&amp;quot; //对象6-&amp;gt;value[] d &amp;quot;d&amp;quot; //对象7-&amp;gt;value[] {a,b,c,d} &amp;quot;abcd&amp;quot; boolean = contains(CharSequence s);//判断给定的s是否在字符串中存在 starstWith(String prefix); endsWith(String suffix); //判断次字符串是否以xx开头/结尾 byte[] = getBytes(); char[] = toCharArray(); //将当前子字符串转化成数组 int = indexOf(int/String str[,int fromIndex]);//四个方法重载 //找寻给定的元素在字符串中第一次初选的索引位置,若字符串不存在则返回-1 int = lastIndexOf(int/String str[,int fronIndex]); //找寻给定的元素在字符串中最后一次出现的索引位置,若不存在则返回-1 boolean = isEmpty(); //判断当前字符串是否为空字符串(length是否为0) //注意与null之间的区别 replace(target,replacement); replaceAll(target,replacement);//前两个所有出现的都能换 replaceFirst(target,replacement);//第三个只换第一次出现的 //将给定的字符串替换成另外的字符串 String[] = split(String regex[,int limit]);//按照给定的表达式将原来的字符串拆分开 &amp;quot;a-b-c-d&amp;quot; &amp;quot;-&amp;quot; String = substring(int beginIndex[,int endIndex]); //[beginIndex,endIndex) //将当前的字符串截取一部分,若ebdIndex不写 则默认到字符串最后 String = tpUpperCase(); String = tpLowerCase(); //将全部字符串转换成大写/小写 String = trim(); //去掉字符串前后多余的空格 boolean = matches(String regex);//匹配正则表达式 //regular expression 正则表达式  </description>
+    </item>
+    
+    <item>
+      <title>工具类4 String不可变特性及常用方法</title>
+      <link>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB4-string%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%89%B9%E6%80%A7%E5%8F%8A%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sun, 10 Nov 2019 09:43:49 +0800</pubDate>
+      
+      <guid>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB4-string%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%89%B9%E6%80%A7%E5%8F%8A%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/</guid>
+      <description>String类-&amp;gt;引用类型 java.lang包
+常见的String笔试题 == equals方法的区别 String的不可变特性 StringBuffer与StringBuilder区别 String对象的存储 String中常用的方法*  1. 存在哪 java.lang包 没有任何继承关系，实现三个接口 Serializable,CharSequence,Comparable&amp;lt;&amp;gt;
+2. 如何构建对象  String str = &amp;quot;abc&amp;quot;;//直接将字符串常量赋值给str (字符串常量池) String str = new String();//String str = &amp;quot;&amp;quot;;无参数构造方法创建空的对象 String str = new String(&amp;quot;abc&amp;quot;);//String str = &amp;quot;abc&amp;quot;;带String参数的构造方法创建对象 String str = new String(byte[]);//将数组中的每一个元素转化成对应的char 组合成String String str = new String(char[]);//将数组中的每一个char元素拼接成String String str = new String(&amp;quot;hello&amp;quot;,1,3);//str=&amp;quot;ell&amp;quot;; String的重载，从一号向右偏移三位拼接  3. == equals方法的区别  ==可以比较基本类型，可以比较引用类型。比较基本类型比较值，比较引用类型比较地址 equals只能比较引用类型(方法)，默认比较地址this==obj。如果想要改变其比较规则，可以重写equals方法。通常重写equals方法时会伴随着重写hashCode方法  4. String的不可变特性*  体现在两个地方:长度和内容 private final char value[]; // 在String类中包含一个数组value,存储String中的每一个字符 长度-&amp;gt;final修饰的数组,数组长度本身不变,final修饰数组的地址也不变 内容-&amp;gt;private修饰的属性,不能在类的外部访问  5.</description>
+    </item>
     
     <item>
       <title>工具类3 日期相关&#43;String</title>
