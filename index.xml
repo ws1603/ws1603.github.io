@@ -6,10 +6,37 @@
     <description>Recent content on 小松的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Sun, 10 Nov 2019 09:42:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 10 Nov 2019 09:43:16 +0800</lastBuildDate>
     
 	<atom:link href="https://wangsong.site/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>工具类3 日期相关&#43;String</title>
+      <link>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB3-%E6%97%A5%E6%9C%9F%E7%9B%B8%E5%85%B3&#43;string/</link>
+      <pubDate>Sun, 10 Nov 2019 09:43:16 +0800</pubDate>
+      
+      <guid>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB3-%E6%97%A5%E6%9C%9F%E7%9B%B8%E5%85%B3&#43;string/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>工具类2 数学相关</title>
+      <link>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB2-%E6%95%B0%E5%AD%A6%E7%9B%B8%E5%85%B3/</link>
+      <pubDate>Sun, 10 Nov 2019 09:42:47 +0800</pubDate>
+      
+      <guid>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB2-%E6%95%B0%E5%AD%A6%E7%9B%B8%E5%85%B3/</guid>
+      <description>包装类 数学相关 日期相关 字符串相关 集合相关 异常相关 I/O相关 线程相关 网络相关 反射相关 GUI相关
+与数学相关的类 1.所属的包java.lang
+2.Math构造方法是私有的，我们不能直接调用创建对象
+3.由于Math中提供的属性及方法都是static，不需要创建对象
+4.常用方法
+abs(*) int //给定数字的绝对值 ceil(Double) int //向上取整 floor(Double) int //向下取整 rint(Double) int //临近的整数，如果两边距离一样则返回偶数 round(Double) int //四舍五入 max(a,b); min(a,b); //int long float double 最大最小值 pow(a,b); //a的b次方(参数double 返回值double) sqrt(a); //取平方根 double = random(); //随机产生一个[0.0~1.0)  5.Math.random()计算小数的时候精确度可能会有些损失
+0~9之间的随机整数 int value = (int)(Math.random()*10); 5.0~10.9之间的小数 (Math.random()*6)+5 0.0~0.999999 *6 --&amp;gt;0.0~5.49999  Random类 1.在java.util包中的类，需要import导入
+2.没有任何继承 关系，默认继承Object
+3.查找构造方法&amp;mdash;&amp;gt;如何创建对象
+Random r = new Random();  4.</description>
+    </item>
     
     <item>
       <title>工具类1 包装类</title>
