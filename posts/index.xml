@@ -6,10 +6,25 @@
     <description>Recent content in Posts on 小松的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Tue, 29 Oct 2019 11:53:59 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 10 Nov 2019 09:42:00 +0800</lastBuildDate>
     
 	<atom:link href="https://wangsong.site/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>工具类1 包装类</title>
+      <link>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB1-%E5%8C%85%E8%A3%85%E7%B1%BB/</link>
+      <pubDate>Sun, 10 Nov 2019 09:42:00 +0800</pubDate>
+      
+      <guid>https://wangsong.site/posts/%E5%B7%A5%E5%85%B7%E7%B1%BB1-%E5%8C%85%E8%A3%85%E7%B1%BB/</guid>
+      <description>研究内容  类所在的包 类的关系,自己默认继承,实现 类中提供的常用方法 是否可以创建对象,调用,方法本身静态  包装类(封装类) byte---Byte short---Short int---Integer long---Long float---Float double---Double char---Character boolean---Boolean   八个包装类都在同一个包下java.lang包, 不需要import导包直接使用
+ 八个包装类中有六个是与数字相关的,都默认继承父类Number
+ 八个包装类都实现了Serializable,Comparable接口
+ 八个包装类都有带自己对应类型参数的构造方法 八个包装类中有七个(除了Character)还有构造方法重载 带String类型
+new Interger(10); new Interger(&amp;quot;10&amp;quot;);  创建对象 对象调用方法
+有六个是与数字相关的类继承Number xxxValue(); 将一个包装类类型转化为对应的基本类型(拆包)
+Integer i1 = new Integer(10);//引用数据类型 包装类 int value = i1.intValue(); //1.5版本之后 自动拆装包 Integer i2 = 10; int value = new Integer(10); //两种方法将String转化为int int value = Integer.parseInt(&amp;quot;123&amp;quot;); int value = new Integer(&amp;quot;123&amp;quot;);  经常在笔试中出现的问题</description>
+    </item>
     
     <item>
       <title>Java、Maven的包管理</title>
