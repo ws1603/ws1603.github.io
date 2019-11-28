@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="description" content="Simple minimalist theme">
+<meta name="keywords" content="minimalist,blog,goa,hugo,developer">
+
+<base href="https://wangsong.site/">
+
+<title>
+  小松的学习笔记 - 文件上传案例 
+</title>
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://wangsong.site/css/main.css">
+<link rel="stylesheet" href="https://wangsong.site/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="zh_CN">
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">文件上传案例</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON NOV 13, 2019 
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#服务器">服务器</a>
+<ul>
+<li>
+<ul>
+<li><a href="#代码">代码</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#客户端">客户端</a>
+<ul>
+<li>
+<ul>
+<li><a href="#代码-1">代码</a></li>
+</ul></li>
+<li><a href="#对服务器端进行优化">对服务器端进行优化</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    
+    
+
+<h2 id="服务器">服务器</h2>
+
+<pre><code>/**
+ * 文件上传案例服务器端：读取客户端上传的文件，保存到服务器的硬盘，给客户端回写&quot;上传成功&quot;
+ * &lt;p&gt;
+ * 明确：
+ * 数据源：客户端上传的文件
+ * 目的地：服务器的硬盘  d:\\upload\\1.jpg
+ * &lt;p&gt;
+ * 实现步骤：
+ * 1.创建一个服务器ServerSocket对象，和系统要指定的端口
+ * 2.使用ServerSocket对象中的方法accept，获取到请求的客户端Socket对象
+ * 3.使用Socket对象中的方法getInputStream，获取到网络字节输入流InputStream对象
+ * 4.判断d:\\upload文件夹是否存在，不存在则创建
+ * 5.创建一个本地字节输出流FileOutputStream对象，构造方法中绑定要输出的目的地
+ * 6.使用网络字节输入流InputStream对象中的方法read，读取客户端上传的文件
+ * 7.使用本地字节输出流FileOutputStream对象中的方法write，把读取到的文件保存到服务器的硬盘上
+ * 8.使用Socket对象中的方法getOutputStream，获取到网络字节输出流OutputStream对象
+ * 9.使用网络字节输出流OutputStream对象中的方法write，给客户端回写&quot;上传成功&quot;
+ * 10.释放资源(FileOutputStream,Socket,ServerSocket)
+ */
+</code></pre>
+
+<h4 id="代码">代码</h4>
+
+<pre><code>import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Random;
+public class Server {
+    public static void main(String[] args) throws IOException {
+        //1.创建一个服务器ServerSocket对象，和系统要指定的端口
+        ServerSocket server = new ServerSocket(8888);
+        //2.使用ServerSocket对象中的方法accept，获取到请求的客户端Socket对象
+            Socket socket = server.accept();
+            //3.使用Socket对象中的方法getInputStream，获取到网络字节输入流InputStream对象
+            InputStream is = socket.getInputStream();
+            //4.判断d:\\upload文件夹是否存在，不存在则创建
+            File file = new File(&quot;d:\\upload&quot;);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            //5.创建一个本地字节输出流FileOutputStream对象，构造方法中绑定要输出的目的地
+            FileOutputStream fos = new FileOutputStream(file + &quot;c:\\1.jpg&quot;);
+            // 6.使用网络字节输入流InputStream对象中的方法read，读取客户端上传的文件
+            int len = 0;
+            byte[] bytes = new byte[1024];
+            while ((len = is.read(bytes)) != -1) {
+                //7.使用本地字节输出流FileOutputStream对象中的方法write，把读取到的文件保存到服务器的硬盘上
+                fos.write(bytes, 0, len);
+            }
+            //8.使用Socket对象中的方法getOutputStream，获取到网络字节输出流OutputStream对象
+            //9.使用网络字节输出流OutputStream对象中的方法write，给客户端回写&quot;上传成功&quot;
+            socket.getOutputStream().write(&quot;上传成功&quot;.getBytes());
+            //10.释放资源(FileOutputStream,Socket,ServerSocket)
+            fos.close();
+            socket.close();
+            server.close();
+    }
+}
+</code></pre>
+
+<h2 id="客户端">客户端</h2>
+
+<pre><code>/**
+ * 文件上传案例的客户端：读取本地文件，上传到服务器，读取服务器回写的数据
+ * &lt;p&gt;
+ * 明确：
+ * 数据源：c:\\1.jpg
+ * 目的地：服务器
+ * &lt;p&gt;
+ * 实现步骤：
+ * 1.创建一个本地字节输入流FileInputStream对象，构造方法中绑定要读取的数据
+ * 2.创建一个客户端Socket对象，构造方法中绑定服务器的IP地址和端口号
+ * 3.使用Socket中的方法getOutputStream，获取网络字节输出流OutputStream对象
+ * 4.使用本地字节输入流FileInputStream对象中的方法read，读取本地文件
+ * 5.使用网络字节输出流OutputStream对象中的方法write，把读取到的文件上传到服务器
+ * 6.使用Socket中的方法getInputStream，获取网络字节输入流InputStream对象
+ * 7.使用网络字节输入流InputStream对象中的方法read读取服务器回写的数据
+ * 8.释放资源(FileInputStream,Socket)
+ */
+</code></pre>
+
+<h4 id="代码-1">代码</h4>
+
+<pre><code>import java.io.*;
+import java.net.Socket;
+public class Client {
+    public static void main(String[] args) throws IOException {
+        //1.创建一个本地字节输入流FileInputStream对象，构造方法中绑定要读取的数据
+        FileInputStream fis = new FileInputStream(&quot;c:\\Users\\18388\\Desktop\\pic\\author.jpg&quot;);
+        //2.创建一个客户端Socket对象，构造方法中绑定服务器的IP地址和端口号
+        Socket socket = new Socket(&quot;127.0.0.1&quot;, 8888);
+        //3.使用Socket中的方法getOutputStream，获取网络字节输出流OutputStream对象
+        OutputStream os = socket.getOutputStream();
+        //4.使用本地字节输入流FileInputStream对象中的方法read，读取本地文件
+        int len = 0;
+        byte[] bytes = new byte[1024];
+        while ((len = fis.read(bytes)) != -1) {
+            //5.使用网络字节输出流OutputStream对象中的方法write，把读取到的文件上传到服务器
+            os.write(bytes, 0, len);
+        }
+        /*  解决死循环：上传文件，给服务器写一个结束标记
+         *  void shutdownOutput() 禁用此套接字的输出流
+         *  对于 TCP 套接字，任何以前写入的数据都将被发送，并且跟 TCP 的正常连接终止序列。
+         */
+        socket.shutdownOutput();
+
+        //6.使用Socket中的方法getInputStream，获取网络字节输入流InputStream对象
+        InputStream is = socket.getInputStream();
+        //7.使用网络字节输入流InputStream对象中的方法read读取服务器回写的数据
+        while ((len = is.read(bytes)) != -1) {
+            System.out.println(new String(bytes, 0, len));
+        }
+        //8.释放资源(FileInputStream,Socket)
+        fis.close();
+        socket.close();
+    }
+}
+</code></pre>
+
+<h3 id="对服务器端进行优化">对服务器端进行优化</h3>
+
+<pre><code>import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Random;
+public class Server {
+    public static void main(String[] args) throws IOException {
+        //1.创建一个服务器ServerSocket对象，和系统要指定的端口
+        ServerSocket server = new ServerSocket(8888);
+        //2.使用ServerSocket对象中的方法accept，获取到请求的客户端Socket对象
+        /*      让服务器一致处于监听状态(死循环accept方法)
+        *       有一个客户端上传文件，就保存一个文件
+        */
+        while(true){
+            Socket socket = server.accept();
+
+            /*      使用多线程技术，提高程序效率
+             *      有一个客户端上传文件，就开启一个线程，完成文件的上传
+            **/
+            new Thread(new Runnable() {
+                //完成文件的上传
+                @Override
+                public void run() {
+                 try{
+                     //3.使用Socket对象中的方法getInputStream，获取到网络字节输入流InputStream对象
+                     InputStream is = socket.getInputStream();
+                     //4.判断d:\\upload文件夹是否存在，不存在则创建
+                     File file = new File(&quot;d:\\upload&quot;);
+                     if (!file.exists()) {
+                         file.mkdirs();
+                     }
+                     /*      自定义一个文件的命名规则：防止同名的文件被覆盖
+                      *       规则：域名+毫秒值+随机数
+                      */
+                     String fileName = &quot;ws&quot;+System.currentTimeMillis()+new Random().nextInt(999999)+&quot;.jpg&quot;;
+
+                     //5.创建一个本地字节输出流FileOutputStream对象，构造方法中绑定要输出的目的地
+                     FileOutputStream fos = new FileOutputStream(file + &quot;\\&quot;+fileName);
+                     // 6.使用网络字节输入流InputStream对象中的方法read，读取客户端上传的文件
+                     int len = 0;
+                     byte[] bytes = new byte[1024];
+                     while ((len = is.read(bytes)) != -1) {
+                         //7.使用本地字节输出流FileOutputStream对象中的方法write，把读取到的文件保存到服务器的硬盘上
+                         fos.write(bytes, 0, len);
+                     }
+                     //8.使用Socket对象中的方法getOutputStream，获取到网络字节输出流OutputStream对象
+                     //9.使用网络字节输出流OutputStream对象中的方法write，给客户端回写&quot;上传成功&quot;
+                     socket.getOutputStream().write(&quot;上传成功&quot;.getBytes());
+                     //10.释放资源(FileOutputStream,Socket,ServerSocket)
+                     fos.close();
+                     socket.close();
+                 } catch(IOException e){
+                     System.out.println(e);
+                 }
+                }
+            }).start();
+        }
+        //服务器就不用关闭了
+        //server.close();
+    }
+}
+</code></pre>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-shenoybr-github-io-hugo-goa-demo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB12-treemap&#43;%E8%80%83%E8%AF%95%E7%B3%BB%E7%BB%9F%E7%BB%83%E4%B9%A0/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/notes">notes</a></span>
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E6%A8%A1%E6%8B%9Fbs%E6%9C%8D%E5%8A%A1%E5%99%A8/"> | next &gt;</a></span>
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">© 2019. 王崧. <a href="http://creativecommons.org/licenses/by/3.0/">Some Rights Reserved</a>.</h6>
+  
+  <h6 class="text-center powered">Powered by <a href="https://gohugo.io/">Hugo  v0.58.3</a> &amp; <a href="https://github.com/shenoybr/hugo-goa">Goa</a>.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+

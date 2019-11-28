@@ -1,40 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>小松的学习笔记</title>
-    <link>https://wangsong.site/</link>
-    <description>Recent content on 小松的学习笔记</description>
+    <title>Notes on 小松的学习笔记</title>
+    <link>https://wangsong.site/notes/</link>
+    <description>Recent content in Notes on 小松的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Wed, 27 Nov 2019 22:55:04 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 24 Nov 2019 10:40:12 +0800</lastBuildDate>
     
-	<atom:link href="https://wangsong.site/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://wangsong.site/notes/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Collection体系的常用类及其背后的数据结构</title>
-      <link>https://wangsong.site/posts/collection%E4%BD%93%E7%B3%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%8F%8A%E5%85%B6%E8%83%8C%E5%90%8E%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
-      <pubDate>Wed, 27 Nov 2019 22:55:04 +0800</pubDate>
-      
-      <guid>https://wangsong.site/posts/collection%E4%BD%93%E7%B3%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%8F%8A%E5%85%B6%E8%83%8C%E5%90%8E%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</guid>
-      <description>集合 Collection 存储的都是value对象 List 有序可重复 Set 无序无重复 Map 存储的是key-value形式的对象，key无序无重复，value无序可重复 有序：添加进去的元素与取得元素的顺序一致。注意不是集合自己的顺序 重复：两个对象元素一致  集合框架的接口 集合框架中的类 常见的集合 List接口 ArrayList
-一种可以动态增长和缩减的索引队列，其底层为一个动态数组，适合随机访问不适合插入删除，初始容量为10，可以自动扩容。
-LinkedList
-一种可以在任何位置进行高效地插入和删除的有序队列，为一个双向链表，适合插入和删除不适合随机访问。
-Vector
-与ArrayList相似，是一个动态数组，操作与ArrayList相同，不同的是Vector是线程同步的(synchronized)，安全性高，效率低。
-Stack
-栈，继承自Vector，特性是后进先出。
-Set接口 HashSet
-一种没有重复元素的集合，是线程非同步的，底层为HashMap。
-无重复原则:通过equals()和HashCode()判断，判断重复则拒绝存入。
-TreeSet
-一种有序的集合，基于TreeMap实现，其排序为自然排序或根据compareTo排序，当存入自己写的类时需要先实现compareTo接口。
-Map接口 HashMap
-存储键值对(key-value)映射的散列表，不同的key可以存储相同的value，key若有相同则将原有的value覆盖而不是拒绝存入(跟Set刚好相反)。
-TreeMap
-存储键值对有序排列的集合，基于红黑树实现，根据自然排序或compareTo排序。</description>
-    </item>
     
     <item>
       <title>生产者消费者模型</title>
@@ -439,59 +414,6 @@ Random r = new Random();  4.</description>
 new Interger(10); new Interger(&amp;quot;10&amp;quot;);  创建对象 对象调用方法
 有六个是与数字相关的类继承Number xxxValue(); 将一个包装类类型转化为对应的基本类型(拆包)
 Integer i1 = new Integer(10);//引用数据类型 包装类 int value = i1.intValue(); //1.5版本之后 自动拆装包 Integer i2 = 10; int value = new Integer(10); //两种方法将String转化为int int value = Integer.parseInt(&amp;quot;123&amp;quot;); int value = new Integer(&amp;quot;123&amp;quot;);  经常在笔试中出现的问题</description>
-    </item>
-    
-    <item>
-      <title>Java、Maven的包管理</title>
-      <link>https://wangsong.site/posts/javamaven%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86/</link>
-      <pubDate>Tue, 29 Oct 2019 11:53:59 +0800</pubDate>
-      
-      <guid>https://wangsong.site/posts/javamaven%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86/</guid>
-      <description> Java的包管理机制 包管理的本质就是告诉JVM如何找到所需的第三方类库，以及成功地解决其中的冲突问题。
-JVM的包管理机制非常简单：
- JVM一辈子只干一件事，读字节码文件，执行字节码。 每当JVM看到一个全限定类名，就尝试从classpath中加载。  要找一个类就在-classpath所指定的jar包(一堆类的压缩包)或文件夹中按照全限定类名(目录层级)挨个查找，找到为止，找不到就会丢出一个ClassNotFoundExeption。
-当多个同名类同时出现在classpath中，JVM就只会加载放在前面的类，导致了放在后面的想要使用的类得不到使用，这就是Classpath hell。
-由于传递性依赖，我们依赖的类可能还依赖类其他的类，classpath中会将所有依赖的类引用进来，这就导致classpath非常长，要解决Classpath hell，人工寻找classpath中的同名类非常困难，这就需要借助自动化工具来实现。
-Maven的包管理机制 Maven的仓库
- Maven的中央仓库：按照一定的约定存储包 Maven的本地仓库：默认位于~/.m2,下载的第三方包放在这里进行缓存  Maven按照约定为所有的包编号：groupId/artifactId/version，方便检索。
-当我们需要一个包时，Maven按照我们给出的编号，去仓库查找这个包，并根据依赖找到所有的包下载到本地，然后拼接成一个很长的classpath，以供JVM查找加载。
-作为依赖性的自动管理工具，Maven绝对不允许最终的classpath出现同名不同版本的jar包，其解决依赖冲突的原则是：距离本项目最近的胜出 。 但这一原则并不能总是让我们得到需要的包，当看到这些异常的的时候，说明Maven解决不了这个包冲突，需要靠手动解决。
-AbstractMethodError NoClassDefFoundError ClassNotFoundException LinkageError  包管理冲突的解决 以运行一个程序得到如下异常为例:
-首先对冲突的包进行定位，可以从Maven的Dependency中找到对应的两个包，可以看到此项目中只有两个org.springframework:spring-web的包，5.1.8版本不受其他包所依赖，距离本项目较4.3.6版本更近，所以Maven是采用了5.1.8版本，所以我们可以很快地定位到运行项目缺失的类方法是在4.3.6版本中。
-但是，如果这里发生冲突的包不止有两个呢？这时，就需要到Maven的中央仓库去查看源码进行定位了。
-定位到了发生冲突的包，那么接下来就该解决问题了。
-方法一 在最近处添加一个新的包 在pom.xml文件中引入一个4.3.6版本的dependency即可
-&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-web&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;4.3.6.RELEASE&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;compile&amp;lt;/scope&amp;gt; &amp;lt;/dependency&amp;gt;  方法二 消除与其冲突的包 如果5.1.8版本包不被其他包所依赖，直接在pom.xml文件中将其dependency删去或者注释掉即可；如果5.1.8版本包受其他包所依赖，可在上级包的dependency中添加如下内容即可将5.1.8版本包从其中排除不受依赖。
-&amp;lt;exclusions&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-web&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;/exclusions&amp;gt;  </description>
-    </item>
-    
-    <item>
-      <title>Myblog</title>
-      <link>https://wangsong.site/myblog/</link>
-      <pubDate>Mon, 28 Oct 2019 12:35:52 +0800</pubDate>
-      
-      <guid>https://wangsong.site/myblog/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>如何使用Hugo搭建个人博客</title>
-      <link>https://wangsong.site/posts/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</link>
-      <pubDate>Mon, 28 Oct 2019 10:55:57 +0800</pubDate>
-      
-      <guid>https://wangsong.site/posts/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</guid>
-      <description>Hugo是由Go语言实现的静态网站生成器，可以快速搭建一套静态展示类型的网站。并且自带高性能服务器，热部署等特性，是不想多花精力又想构建个人博客的极佳选择。本文将介绍如何使用Hugo搭建个人博客及如何发布到Github并生成Github pages。
-快速搭建博客 进入Hugo 官网，点击Quick Start快速开始。
-安装Hugo Windows安装方式  去Hugo releases页面下载hugo_xxx_Windows-64bit.zip 解压，把hugo.exe放到D:\Software\hugo\hugo.exe 把D:\Software\hugo加到PATH 重启终端，运行hugo version 查看版本  Mac安装方式  brew install hugo hugo version  建立新站点 输入命令
-hugo new site github.io-creator  在当前文件夹中创建一个新的Hugo网站github.io-creator。
-添加主题 依次输入下面四条命令，下载并使用主题ananke。
-cd github.io-creator git init git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke echo &#39;theme = &amp;quot;ananke&amp;quot;&#39; &amp;gt;&amp;gt; config.toml  更换主题可到Hugo的官方网站浏览下载。
-创建文章 输入命令
-hugo new posts/我的博客.md  Hugo会在content目录下创建post目录，在post目录下创建scala-learning-pattern-matching.md文件。之后打开md文件，里面已经有些内容：
-这里的的draft默认状态为true,需要修改为false才能发布。
-查看生成的文章 草稿状态下 输入命令hugo sever -D
-非草稿状态下 输入hugo sever
-可得到如下结果：</description>
     </item>
     
   </channel>

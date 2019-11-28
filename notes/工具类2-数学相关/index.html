@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="description" content="Simple minimalist theme">
+<meta name="keywords" content="minimalist,blog,goa,hugo,developer">
+
+<base href="https://wangsong.site/">
+
+<title>
+  小松的学习笔记 - 工具类2 数学相关 
+</title>
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://wangsong.site/css/main.css">
+<link rel="stylesheet" href="https://wangsong.site/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="zh_CN">
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">工具类2 数学相关</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON NOV 10, 2019 
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    
+
+<p>包装类  数学相关    日期相关    字符串相关  集合相关    异常相关    I/O相关    线程相关    网络相关    反射相关    GUI相关</p>
+
+<h3 id="与数学相关的类">与数学相关的类</h3>
+
+<p>1.所属的包java.lang<br />
+2.Math构造方法是私有的，我们不能直接调用创建对象<br />
+3.由于Math中提供的属性及方法都是static，不需要创建对象<br />
+4.常用方法</p>
+
+<pre><code>abs(*) int //给定数字的绝对值
+ceil(Double) int //向上取整    
+floor(Double) int //向下取整
+rint(Double) int //临近的整数，如果两边距离一样则返回偶数 
+round(Double) int  //四舍五入
+
+max(a,b);  min(a,b);  //int long float double 最大最小值
+pow(a,b);    //a的b次方(参数double 返回值double)
+sqrt(a);     //取平方根
+double = random();    //随机产生一个[0.0~1.0)
+</code></pre>
+
+<p>5.Math.random()计算小数的时候精确度可能会有些损失</p>
+
+<pre><code>0~9之间的随机整数   
+int value = (int)(Math.random()*10);
+
+5.0~10.9之间的小数
+(Math.random()*6)+5
+0.0~0.999999 *6 --&gt;0.0~5.49999
+</code></pre>
+
+<h4 id="random类">Random类</h4>
+
+<p>1.在java.util包中的类，需要import导入<br />
+2.没有任何继承 关系，默认继承Object<br />
+3.查找构造方法&mdash;&gt;如何创建对象</p>
+
+<pre><code>Random r = new Random();
+</code></pre>
+
+<p>4.类中提供的常用方法</p>
+
+<pre><code>r.nextInt();    //随机产生int取值范围的整数，有正有负
+r.nextInt(int bound);   //随机产生一个[0,bound)的整数
+//注意bound必须为正数，否则会出现运行异常 IllegalArgumentException
+r.nextFloat();//随机产生一个[0.0,1.0)
+r.nextBoolean();//随机产生一个boolean值 true false
+
+float f = r.nextFloat();    //[0.0,1.0)
+
+//5.0~10.9范围
+r.nextInt(6)+5+r.nextFloat();
+</code></pre>
+
+<h4 id="uuid类">UUID类</h4>
+
+<p>1.所属的包 java.util ，需要import导入<br />
+2.没有任何继承关系，默认继承Object类<br />
+3.构造方法，没有无参数的，我们通常不会创建对象</p>
+
+<pre><code>UUID uuid = UUID.randomUUID();
+system.out.println(uuid.toString());//可用于产生数据库表格主键 primary key
+//产生一个32位的随机元素，每一个位置是一个16进制的数字
+</code></pre>
+
+<h4 id="biginteger类">BigInteger类</h4>
+
+<p>大整数，long范围-2的63次方~2的63次方-1，如果超出了long的范围可用BigInteger，BigInteger是动态扩容的。<br />
+1.所属的包java.math ，需import导入<br />
+2.继承自Number<br />
+3.如何创建对象，提供的构造方法全部都是带有参数的</p>
+
+<pre><code>//通常利用带String参数的构造方法创建这个类的对象  
+BigInteger b = new BinInteger(&quot;123&quot;);
+</code></pre>
+
+<p>4.类中的常用方法</p>
+
+<pre><code>//做四则运算  
+add();  subtract(); multiply(); divide();
+</code></pre>
+
+<p>5.小例子.设计一个方法，用来计算给定数字的阶乘</p>
+
+<pre><code class="language-java">public BigInteger factorial(int num){
+        BigInteger result = new BigInteger(&quot;1&quot;);
+        for(int i=1;i&lt;=num;i++){
+            result = result.multiply(new BigInteger(i+&quot;&quot;));
+        }
+        return result;
+    }         
+</code></pre>
+
+<h4 id="bigdeciam类">BigDeciam类</h4>
+
+<p>大小数，超过了double的取值范围
+1.所属的包 java.math 包
+2.继承Number类
+3.通常也是可以通过 带String参数 构造对象
+4.类中常用的方法</p>
+
+<pre><code>//做四则运算
+add();  subtract(); multiply(); divide();
+
+//两个参数，前面是保留小数点之后的位数，后面参数是设置的模式。
+对象.setScale(2,BigDecimal.ROUND_DOWN);//保留两位小数，向下取整
+</code></pre>
+
+<h4 id="deciamlformat类">DeciamlFormat类</h4>
+
+<p>将小数点之前和之后的位数都能处理的类&ndash;&gt;格式化<br />
+1.所属的包 java.text<br />
+2.通过带String参数的构造方法创建一个格式化对象 0 #<br />
+3.调用format方法将一个小数格式化成一个字符串</p>
+
+<pre><code>DecimalFormat a = new DecimalFormat(&quot;000.###&quot;);//小数不足三位不补0,整数写0写#写几位无所谓
+String value = a.format(12.45);//12.45
+DecimalFormat b = new DecimalFormat(&quot;###.000&quot;);//小数不足三位时补0
+String value = b.format(12.45);//12.450
+
+String value = b.format(12.45795);//12.458
+</code></pre>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-shenoybr-github-io-hugo-goa-demo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB1-%E5%8C%85%E8%A3%85%E7%B1%BB/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/notes">notes</a></span>
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB3-%E6%97%A5%E6%9C%9F%E7%9B%B8%E5%85%B3&#43;string/"> | next &gt;</a></span>
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">© 2019. 王崧. <a href="http://creativecommons.org/licenses/by/3.0/">Some Rights Reserved</a>.</h6>
+  
+  <h6 class="text-center powered">Powered by <a href="https://gohugo.io/">Hugo  v0.58.3</a> &amp; <a href="https://github.com/shenoybr/hugo-goa">Goa</a>.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+

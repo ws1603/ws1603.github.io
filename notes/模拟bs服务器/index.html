@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="description" content="Simple minimalist theme">
+<meta name="keywords" content="minimalist,blog,goa,hugo,developer">
+
+<base href="https://wangsong.site/">
+
+<title>
+  小松的学习笔记 - 模拟BS服务器 
+</title>
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://wangsong.site/css/main.css">
+<link rel="stylesheet" href="https://wangsong.site/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="zh_CN">
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">模拟BS服务器</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON NOV 13, 2019 
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    
+
+<h2 id="分析">分析</h2>
+
+<p><img src="模拟BS.png" alt="" />
+<img src="模拟BS服务器.jpg" alt="" /></p>
+
+<h2 id="代码实现">代码实现</h2>
+
+<pre><code>import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/**
+ * 创建BS版本TCP服务器
+ */
+public class BSserver {
+    public static void main(String[] args) throws IOException {
+        //创建一个服务器ServerSocket，和系统要指定的端口
+        ServerSocket server = new ServerSocket(9090);
+        //使用accept方法获取到请求的客户端对象(浏览器)
+        Socket socket = server.accept();
+        //使用Socket对象中的方法getInputStream，获取网络字节输入流InputStream对象
+        InputStream is = socket.getInputStream();
+        //使用网络字节输入流InputStream对象中的方法read读取客户端的请求信息
+/*
+        byte[] bytes = new byte[1024];
+        int len = 0;
+        while((len=is.read(bytes))!=-1){
+            System.out.println(new String(bytes,0,len));
+        }*/
+
+       //把is网络字节输入流对象，转换为字符缓冲输入流
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        //把客户端请求信息的第一行读取出来 GET /11_Net/web/index.html HTTP/1.1
+        String line = br.readLine();
+        //把读取的信息进行切割，只要中间部分 /11_Net/web/index.html
+        String[] arr = line.split(&quot; &quot;);
+        //把路径前边的/去掉，进行截取 11_Net/web/index.html
+        String html_path = arr[1].substring(1);
+
+        //创建一个本地字节输入流，构造方法中绑定要读取的html路径
+        FileInputStream fis = new FileInputStream(html_path);
+        //使用Socket中的方法getOutputStream获取网络字节输出流OutputStream对象
+        OutputStream os = socket.getOutputStream();
+
+        //写入HTTP协议响应头，固定写法
+        os.write(&quot;HTTP/1.1 200 OK\r\n&quot;.getBytes());
+        os.write(&quot;Content-Type:text/html\r\n&quot;.getBytes());
+        //必须要写入空行，否则浏览器不解析
+        os.write(&quot;\r\n&quot;.getBytes());
+
+        //一读一写复制文件，把服务器读取的html文件回写到客户端
+        int len=0;
+        byte[] bytes = new byte[1024];
+        while((len=fis.read(bytes))!=-1){
+            os.write(bytes,0,len);
+        }
+
+        //释放资源
+        fis.close();
+        socket.close();
+        server.close();
+    }
+}
+</code></pre>
+
+<p>在浏览器中输入<code>http://127.0.0.1:9090/web/index.html</code>即可访问，但是发现不能加载图片，对代码进行改进。</p>
+
+<pre><code>import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/**
+ * 创建BS版本TCP服务器
+ */
+public class BSserver {
+    public static void main(String[] args) throws IOException {
+        //创建一个服务器ServerSocket，和系统要指定的端口
+        ServerSocket server = new ServerSocket(9090);
+
+        /*      浏览器解析服务器回写html页面，页面中如果有图片，那么浏览器就会单独开启一个线程，读取服务器的图片
+                我们就让浏览器一直处于监听状态，客户请求一次，服务器就回写一次
+        * */
+        while(true){
+            //使用accept方法获取到请求的客户端对象(浏览器)
+            Socket socket = server.accept();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                try{
+                    //使用Socket对象中的方法getInputStream，获取网络字节输入流InputStream对象
+                    InputStream is = socket.getInputStream();
+                    //使用网络字节输入流InputStream对象中的方法read读取客户端的请求信息
+/*
+        byte[] bytes = new byte[1024];
+        int len = 0;
+        while((len=is.read(bytes))!=-1){
+            System.out.println(new String(bytes,0,len));
+        }*/
+
+                    //把is网络字节输入流对象，转换为字符缓冲输入流
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    //把客户端请求信息的第一行读取出来 GET /11_Net/web/index.html HTTP/1.1
+                    String line = br.readLine();
+                    System.out.println(line);
+                    //把读取的信息进行切割，只要中间部分 /11_Net/web/index.html
+                    String[] arr = line.split(&quot; &quot;);
+                    //把路径前边的/去掉，进行截取 11_Net/web/index.html
+                    String html_path = arr[1].substring(1);
+
+                    //创建一个本地字节输入流，构造方法中绑定要读取的html路径
+                    FileInputStream fis = new FileInputStream(html_path);
+                    //使用Socket中的方法getOutputStream获取网络字节输出流OutputStream对象
+                    OutputStream os = socket.getOutputStream();
+
+                    //写入HTTP协议响应头，固定写法
+                    os.write(&quot;HTTP/1.1 200 OK\r\n&quot;.getBytes());
+                    os.write(&quot;Content-Type:text/html\r\n&quot;.getBytes());
+                    //必须要写入空行，否则浏览器不解析
+                    os.write(&quot;\r\n&quot;.getBytes());
+
+                    //一读一写复制文件，把服务器读取的html文件回写到客户端
+                    int len=0;
+                    byte[] bytes = new byte[1024];
+                    while((len=fis.read(bytes))!=-1){
+                        os.write(bytes,0,len);
+                    }
+
+                    //释放资源
+                    fis.close();
+                    socket.close();
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+                }
+            }).start();
+        }
+       // server.close();
+    }
+}
+</code></pre>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-shenoybr-github-io-hugo-goa-demo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%A1%88%E4%BE%8B/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/notes">notes</a></span>
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E9%94%99%E8%AF%AF%E4%B8%8E%E5%BC%82%E5%B8%B8/"> | next &gt;</a></span>
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">© 2019. 王崧. <a href="http://creativecommons.org/licenses/by/3.0/">Some Rights Reserved</a>.</h6>
+  
+  <h6 class="text-center powered">Powered by <a href="https://gohugo.io/">Hugo  v0.58.3</a> &amp; <a href="https://github.com/shenoybr/hugo-goa">Goa</a>.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+

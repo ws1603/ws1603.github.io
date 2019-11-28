@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="description" content="Simple minimalist theme">
+<meta name="keywords" content="minimalist,blog,goa,hugo,developer">
+
+<base href="https://wangsong.site/">
+
+<title>
+  小松的学习笔记 - 工具类12 TreeMap&#43;考试系统练习 
+</title>
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://wangsong.site/css/main.css">
+<link rel="stylesheet" href="https://wangsong.site/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="zh_CN">
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">工具类12 TreeMap&#43;考试系统练习</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON NOV 10, 2019 
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#考试系统">考试系统</a></li>
+</ul></li>
+</ul>
+</nav>
+    
+    
+
+<p>TreeMap<br />
+1.java.util包<br />
+2.构造方法<br />
+    无参数 带map参数<br />
+3.常用方法<br />
+    put get remove replace size
+4.底层数据结构的存储<br />
+    红黑二叉树</p>
+
+<h2 id="考试系统">考试系统</h2>
+
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+    ExamMachine machine = new ExamMachine();
+        Scanner input = new Scanner(System.in);
+        System.out.println(&quot;欢迎进入考试系统\n请输入用户名&quot;);
+        String userName = input.nextLine();
+        System.out.println(&quot;请输入密码&quot;);
+        String password = input.nextLine();
+        Student student =new Student(userName,password);
+        String result = machine.logIn(student.getUserName(),student.getPassword());
+        if(result.equals(&quot;登录成功&quot;)){
+            System.out.println(&quot;登录成功\n&quot;+student.getUserName()+&quot;开始考试啦，请认真作答&quot;);
+            ArrayList&lt;Question&gt; paper = machine.getPaper();
+            String[] answers = student.exam(paper);
+            Teacher teacher = new Teacher();
+            int score = teacher.checkPaper(paper,answers);
+            System.out.println(student.getUserName()+&quot;最终的成绩是&quot;+score);
+        }
+    }
+}
+</code></pre>
+
+<pre><code class="language-java">public class ExamMachine {
+
+    private HashMap&lt;String, String&gt; userBox = new HashMap&lt;&gt;();
+    {
+        userBox.put(&quot;张三&quot;, &quot;111&quot;);
+    }
+
+    private HashSet&lt;Question&gt; questionBank = new HashSet&lt;Question&gt;();
+    {
+        questionBank.add(new Question(&quot;如下哪个选项不是Java基本数据类型?\n\tA.String\n\tB.Short\n\tC.Char\n\tD.Boolean&quot;, &quot;B&quot;));
+        questionBank.add(new Question(&quot;如下哪个选项是是Java基本数据类型?\n\tA.String\n\tB.Short\n\tC.Char\n\tD.Boolean&quot;, &quot;B&quot;));
+        questionBank.add(new Question(&quot;如下哪个选项不是Java引用数据类型?\n\tA.String\n\tB.Short\n\tC.Char\n\tD.Boolean&quot;, &quot;B&quot;));
+        questionBank.add(new Question(&quot;如下哪个选项是Java引用数据类型?\n\tA.String\n\tB.Short\n\tC.Char\n\tD.Boolean&quot;, &quot;B&quot;));
+        questionBank.add(new Question(&quot;如下哪个选项不是Java.util包中的类?\n\tA.String\n\tB.Short\n\tC.Char\n\tD.Boolean&quot;, &quot;B&quot;));
+        questionBank.add(new Question(&quot;如下哪个选项是Java.util包中的类?\n\tA.String\n\tB.Short\n\tC.Char\n\tD.Boolean&quot;, &quot;B&quot;));
+        questionBank.add(new Question(&quot;如下哪个选项是String类的方法?\n\tA.String\n\tB.Short\n\tC.Char\n\tD.Boolean&quot;, &quot;B&quot;));
+        questionBank.add(new Question(&quot;如下哪个选项不是String类的方法?\n\tA.String\n\tB.Short\n\tC.Char\n\tD.Boolean&quot;, &quot;B&quot;));
+        questionBank.add(new Question(&quot;如下哪个选项不是接口中属性的修饰符?\n\tA.String\n\tB.Short\n\tC.Char\n\tD.Boolean&quot;, &quot;B&quot;));
+        questionBank.add(new Question(&quot;如下哪个选项是接口中属性的修饰符?\n\tA.String\n\tB.Short\n\tC.Char\n\tD.Boolean&quot;, &quot;B&quot;));
+    }
+
+    public ArrayList&lt;Question&gt; getPaper() {
+        System.out.println(&quot;考试机正在随机生成试卷，请耐心等待&quot;);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        HashSet&lt;Question&gt; paper = new HashSet&lt;&gt;();
+
+        ArrayList&lt;Question&gt; questionBank = new ArrayList&lt;&gt;(this.questionBank);
+        while (paper.size() != 5) {
+            int index = new Random().nextInt(this.questionBank.size());
+            Question question = questionBank.get(index);
+            paper.add(question);
+        }
+        return new ArrayList&lt;Question&gt;(paper);
+    }
+    //登录方法
+    public String logIn(String userName, String password) {
+        String realPassword = this.userBox.get(userName);
+        if (realPassword != null &amp;&amp; realPassword.equals(password)) {
+            return &quot;登录成功&quot;;
+        }
+        return &quot;用户名或密码错误&quot;;
+    }
+}
+</code></pre>
+
+<pre><code class="language-java">public class Question {
+    private String tittle;
+    private String answer;
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this==obj){
+            return  true;
+        }
+        if(obj instanceof Question){
+            Question anotherQuestion = (Question)obj;
+        if(this.tittle.equals(anotherQuestion.tittle)){
+            return true;
+        }
+        }
+        return  false;
+    }
+    public String getTittle() {
+        return tittle;
+    }
+
+    public Question(String tittle, String answer){
+    this.tittle = tittle;
+    this.answer = answer;
+    }
+}
+</code></pre>
+
+<pre><code class="language-java">public class Student {
+
+    private String userName;
+    private String password;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Student(String userName, String password){
+        this.userName = userName;
+        this.password = password;
+
+    }
+
+    public String[] exam(ArrayList&lt;Question&gt; paper){
+        String[] answers = new String[paper.size()];
+        Scanner input = new Scanner(System.in);
+        for(int i=0;i&lt;paper.size();i++){
+            Question question = paper.get(i);//题干，真实答案
+            System.out.println((i+1)+&quot;.&quot;+question.getTittle());
+            System.out.println(&quot;请输入正确选项&quot;);
+            answers[i] = input.nextLine();
+        }
+        return answers;
+    }
+}
+</code></pre>
+
+<pre><code class="language-java">public class Teacher {
+    public int checkPaper(ArrayList&lt;Question&gt; paper, String[] answers){
+        try {
+            System.out.println(&quot;老师正在批阅试卷，请耐心等待&quot;);
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        int score=0;
+        for(int i=0;i&lt;paper.size();i++){
+            Question question = paper.get(i);
+            if(question.getAnswer().equalsIgnoreCase(answers[i])){
+                score+=(100/paper.size());
+            }
+        }
+        return score;
+    }
+}
+</code></pre>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-shenoybr-github-io-hugo-goa-demo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB11-hashmap/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/notes">notes</a></span>
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%A1%88%E4%BE%8B/"> | next &gt;</a></span>
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">© 2019. 王崧. <a href="http://creativecommons.org/licenses/by/3.0/">Some Rights Reserved</a>.</h6>
+  
+  <h6 class="text-center powered">Powered by <a href="https://gohugo.io/">Hugo  v0.58.3</a> &amp; <a href="https://github.com/shenoybr/hugo-goa">Goa</a>.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+

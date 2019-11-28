@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="description" content="Simple minimalist theme">
+<meta name="keywords" content="minimalist,blog,goa,hugo,developer">
+
+<base href="https://wangsong.site/">
+
+<title>
+  小松的学习笔记 - 工具类7 StringBuffer&#43;StringBuilder&#43;Regex 
+</title>
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://wangsong.site/css/main.css">
+<link rel="stylesheet" href="https://wangsong.site/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="zh_CN">
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">工具类7 StringBuffer&#43;StringBuilder&#43;Regex</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON NOV 10, 2019 
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    
+
+<p>字符串相关的类  java.lang包</p>
+
+<h4 id="string">String</h4>
+
+<ul>
+<li>实现接口<code>Serializable</code>,<code>CharSequence</code>,<code>Comparable</code><br /></li>
+<li>非常特殊的类 可以像常量一样创建对象  <code>String str=&quot;abc&quot;;</code><br /></li>
+<li>内存存储 &ldquo;abc&rdquo;对象 <code>char[] value</code><br /></li>
+<li>String不可变特性    <code>private final char[] value;</code><br /></li>
+<li>频繁的修改其内容的时候，性能很不好<br /></li>
+</ul>
+
+<h4 id="stringbuffer-stringbuilder">StringBuffer/StringBuilder</h4>
+
+<ol>
+<li><p>所属的包 java.lang包</p></li>
+
+<li><p>默认继承AbstractStringBuilder 间接继承Object 实现接口 <code>Serializable</code>,<code>CharSequence</code>,<code>Appendable</code><br />
+StringBuffer/StringBuilder 没有<code>compareTo</code>方法<br />
+StringBuffer/StringBuilder含有一个String没有的方法<code>append();</code> 拼接</p></li>
+
+<li><p>特性<br />
+可变字符串  <code>char[] value</code>， 动态扩容</p></li>
+
+<li><p>对象的构建</p>
+
+<pre><code>//无参数构造方法 构建一个默认长度16个空间的对象
+StringBuilder builder = new StringBuilder();
+
+//利用给定的参数 构建一个自定义长度空间对象 char[]
+StringBuilder builder = new StringBuilder(20);
+
+//利用带String参数的构造方法 默认数组长度+16个
+StringBuilder builder = new StringBuilder(&quot;abc&quot;);
+</code></pre></li>
+
+<li><p>StringBuilder中常用的方法</p>
+
+<pre><code>append();//最主要的方法,频繁拼接字符串的时候使用此方法，提高性能
+
+ensureCapacity(int minimumCapacity);//确保底层容量够用
+
+capacity();//字符串底层char[]的容量
+length();//字符串有效元素个数
+setLength();//设置字符串有效元素个数
+
+char = charAt(int index);
+int = codePointAt(int index);
+
+String = substring(int start[,int end]);//注意需要接受返回值，才能看见截取出来的新字符串效果
+
+delete(int start[,int end]);//StringBuilder类中独有的方法，String类没有
+//将start到end之间的字符串删掉，不用接受返回值就能看到效果啦
+
+StringBuilder = deleteCharAt(int index);//String类中没有的方法
+//将给定index位置的某一字符删除掉
+
+insert(int index,value);//将给定的value插入在index位置之上
+
+replace(int start,int end,String str);//将start和end之间的内容替换成str
+
+setCharAt(int index,char value);//将index位置的字符改成给定的value
+
+toString();//将StringBuilder对象构建成一个String对象
+
+trimToSize();//将数组中无用的容量去掉，变成length长度的数组
+</code></pre></li>
+
+<li><h4 id="string家族笔试中经常容易考察的知识点">String家族笔试中经常容易考察的知识点</h4>
+
+<ol>
+<li>String所属的包 继承关系 实现接口<br />
+java.lang  继承Object  接口Serializable,CharSequence,Comparable</li>
+<li>String构建方式<br />
+常量 构造方法<br /></li>
+<li>String对象内存结构<br />
+字符串常量区 new 堆内存对象<br />
+== equals区别<br />
+&ldquo;a&rdquo;+&ldquo;b&rdquo;+&ldquo;c&rdquo;</li>
+<li>Sreing不可变特性<br />
+长度及内容</li>
+<li>String中的常用方法&mdash;&ndash;与StringBuilder的区别<br />
+concat(); toUpperCase();</li>
+
+<li><p>String和StringBuilder区别 | String和StringBuffer区别</p>
+
+<ol>
+<li>String 不可变字符串<br />
+ JDK 1.0<br />
+ 有一个接口Comparable<br />
+ 不可变体现在长度及内容<br />
+ 有一些方法另一个没有 concat comparaTo toUpperCase<br /></li>
+<li>StringBuilder可变字符串<br />
+ JDK 1.5<br />
+ 有一个接口Appendable<br />
+ 可变字符串 没有final修饰 底层可以进行数组扩容<br />
+ 有一些方法String没有 append insert delete reverse<br /></li>
+</ol></li>
+
+<li><p>StringBuffer和StringBuilder的不同<br />
+StringBuffer早期版本1.0<br />
+StringBuilder后来的版本1.5<br />
+早期版本  线程同步  安全性较高  执行效率相对较低<br />
+后期版本  线程非同步  安全性比较低  执行效率相对较高</p></li>
+</ol></li>
+</ol>
+
+<h4 id="总结">总结</h4>
+
+<ol>
+<li>StringBuilder类不一定需要，是为了避免String频繁拼接修改字符串信息的时候采用的。底层数组是可变的，提高了性能<br /></li>
+<li>常用方法<br />
+与String类不同的独有方法:<br />
+append()  insert()  delete()  deleteCharAt()  reverse()<br />
+与String类相同的方法:<br />
+length()  charAt()  codePointAt()  indexOf()  lastIndexOf()  replace() 名字相同，用法不同<br /></li>
+</ol>
+
+<p>regular expression 正则表达式<br />
+一个带有一定规律的表达式，匹配字符串格式的
+正则表达式通常的作用如下：<br />
+1.字符串的格式校验<br />
+String类中提供的一个方法 <code>boolean = str.matches(&quot;regex&quot;)</code></p>
+
+<pre><code>    str.matches(&quot;a[abc]&quot;);//第一个字母是a,第二个字母是abc中其中一个？
+    str.matches(&quot;a[^abc]&quot;);//第一个字母是a,第二个字母是非abc任意的其它一个？    
+    str.matches(&quot;a[a-zA-Z]&quot;);//第一个是a,第二个是a到z或者A到Z?
+    str.matches(&quot;[a-z&amp;&amp;[^bc]]&quot;);a到z都可以但不是b和c?
+
+    如下的所有都用来描述字符信息：
+    . 代表任意一个字符
+    | 或者
+    \d digit数字 [0-9]
+    \D 非数字 [^0-9]
+    \s space留白 一个空格 一个回车 一个换行...
+    \S 非留白
+    \w word单词 [0-9A-Za-z] 数字或字母都可以
+    \W 非单词 [^0-9A-Za-z]
+
+    如下的所有都用来描述字符出现的次数
+    ? 0-1次    [0-9]?
+    * 0-n次 
+    + 1-n次 
+    {n} 固定n次  
+    {n,} 至少出现n次
+    {m，n} m-n次    
+</code></pre>
+
+<p>2.字符串的拆分及替换<br />
+String类中提供的方法 replace  spilt</p>
+
+<p>3.字符串的查找<br />
+Pattern模式  Matcher匹配器</p>
+
+<pre><code>//所有的字符串中寻找满足如下规则的信息  邮政编码
+String str = &quot;123456abc123456abc123456abc&quot;;
+
+//1.利用Pattern类创建一个模式   理解为是一个正则表达式对象
+Pattern pattern = Pattern.compile(&quot;\\d{6}&quot;);//邮编
+//2.需要提供一个字符串
+//3.利用Pattern模式对象创建一个匹配器
+Matcher matcher = pattern.matcher(str);
+4.找寻字符串中出现满足上述格式的字串
+while(matcher.fand()){
+    System.out.println(matcher.group());//找到满足字符串格式的那一串文字
+}
+</code></pre>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-shenoybr-github-io-hugo-goa-demo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB6-string%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E7%BB%83%E4%B9%A0/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/notes">notes</a></span>
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB8-list%E9%9B%86%E5%90%88/"> | next &gt;</a></span>
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">© 2019. 王崧. <a href="http://creativecommons.org/licenses/by/3.0/">Some Rights Reserved</a>.</h6>
+  
+  <h6 class="text-center powered">Powered by <a href="https://gohugo.io/">Hugo  v0.58.3</a> &amp; <a href="https://github.com/shenoybr/hugo-goa">Goa</a>.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+

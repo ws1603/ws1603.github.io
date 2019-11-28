@@ -13,7 +13,7 @@
 <base href="https://wangsong.site/">
 
 <title>
-  小松的学习笔记 - Java、Maven的包管理 
+  小松的学习笔记 - 工具类5 String常用方法 
 </title>
 
 <meta name="generator" content="Hugo 0.58.3" />
@@ -44,13 +44,13 @@
 
 
 <header class="row text-left title">
-  <h1 class="title">Java、Maven的包管理</h1>
+  <h1 class="title">工具类5 String常用方法</h1>
 </header>
 <section id="category-pane" class="row meta">
   
   <div class="col-md-12">
     <h6 class="text-left meta">
-        PUBLISHED ON OCT 29, 2019 
+        PUBLISHED ON NOV 10, 2019 
       
     </h6>
   </div>
@@ -59,83 +59,82 @@
 <section id="content-pane" class="row">
   <div class="col-md-12 text-justify content">
     
-    
+    <pre><code>    boolean = equals(Object obj);//继承自Object,equals默认比较地址,被String重写了,比较两个字符串内容
 
-<h2 id="java的包管理机制">Java的包管理机制</h2>
+    int = hashCode();//继承自Object,被String重写,将当前字符串的每一个cahr元素拆开 乘以31求和
 
-<p>包管理的本质就是告诉JVM如何找到所需的第三方类库，以及成功地解决其中的冲突问题。</p>
+    int = compareTo(String str);//实现自Comparable接口，按字典(Unicode编码)索引顺序比较
+    str1.compareTo(str2);
+    //按照两个字符串长度较短的那个作为比较循环的次数
+    //挨个比较元素 str1[i]-str2[i]不为0就返回
+    //如果循环过后发现所有的字符都一样 len1-len2
+    //返回0表示两个字符相等
 
-<p>JVM的包管理机制非常简单：</p>
+    String = toString();//继承自Object,被String重写了,不在输出 类名@hashCode,而是字符串中的字面值
 
-<ul>
-<li>JVM一辈子只干一件事，读字节码文件，执行字节码。</li>
-<li>每当JVM看到一个全限定类名，就尝试从classpath中加载。</li>
-</ul>
+    char = charAt(int index);//&quot;abc&quot; 0-&gt;'a'
+    //返回给定index对应位置的那个char值
 
-<p>要找一个类就在-classpath所指定的jar包(一堆类的压缩包)或文件夹中按照全限定类名(目录层级)挨个查找，找到为止，找不到就会丢出一个ClassNotFoundExeption。</p>
+    int = codePointAt(int index);//&quot;abc&quot; 0-&gt;97
+    //返回给定index对应位置的那个char所对应的code码
 
-<p>当多个同名类同时出现在classpath中，JVM就<code>只会加载放在前面的类</code>，导致了放在后面的想要使用的类得不到使用，这就是Classpath hell。</p>
+    int = length();//返回字符串的长度(其实就是底层char[] value属性的长度)
+    注意:区别数组length是属性 String的length()为方法 集合size()为方法
 
-<p>由于传递性依赖，我们依赖的类可能还依赖类其他的类，classpath中会将所有依赖的类引用进来，这就导致classpath非常长，要解决Classpath hell，人工寻找classpath中的同名类非常困难，这就需要借助自动化工具来实现。</p>
+    String = concat(String);//将给定的字符串拼接在当前字符串之后
+    //此处要注意String对象的不可变特性
+    String str = &quot;ab&quot;;
+    str = str.concat(&quot;c&quot;);//将str重新赋值才能得到&quot;abc&quot;
+    //concat拼接字符串比+拼接性能高
 
-<h2 id="maven的包管理机制">Maven的包管理机制</h2>
+    String str = &quot;a&quot;+&quot;b&quot;+&quot;c&quot;+&quot;d&quot;;//数学计算  拼接符号
+    system.out.println(str);//过程中产生了几个String对象?  字符串常量池7个
+    //对象1-&gt;value[] a  &quot;a&quot;
+    //对象2-&gt;value[] b  &quot;b&quot;
+    //对象3-&gt;value[] {a,b}  &quot;ab&quot;
+    //对象4-&gt;value[] c  &quot;c&quot;
+    //对象5-&gt;value[] {a,b,c}   &quot;abc&quot;
+    //对象6-&gt;value[] d  &quot;d&quot;
+    //对象7-&gt;value[] {a,b,c,d}  &quot;abcd&quot;
 
-<p>Maven的仓库</p>
+    boolean = contains(CharSequence s);//判断给定的s是否在字符串中存在
 
-<ul>
-<li>Maven的中央仓库：按照一定的约定存储包</li>
-<li>Maven的本地仓库：默认位于~/.m2,下载的第三方包放在这里进行缓存</li>
-</ul>
+    starstWith(String prefix);
+    endsWith(String suffix);
+    //判断次字符串是否以xx开头/结尾
 
-<p>Maven按照约定为所有的包编号：groupId/artifactId/version，方便检索。</p>
+    byte[] = getBytes();
+    char[] = toCharArray();
+    //将当前子字符串转化成数组
 
-<p>当我们需要一个包时，Maven按照我们给出的编号，去仓库查找这个包，并根据依赖找到所有的包下载到本地，然后拼接成一个很长的classpath，以供JVM查找加载。</p>
+    int = indexOf(int/String str[,int fromIndex]);//四个方法重载
+    //找寻给定的元素在字符串中第一次初选的索引位置,若字符串不存在则返回-1
+    int = lastIndexOf(int/String str[,int fronIndex]);
+    //找寻给定的元素在字符串中最后一次出现的索引位置,若不存在则返回-1
 
-<p>作为依赖性的自动管理工具，Maven绝对不允许最终的classpath出现同名不同版本的jar包，其解决依赖冲突的原则是：<code>距离本项目最近的胜出</code> 。
-但这一原则并不能总是让我们得到需要的包，当看到这些异常的的时候，说明Maven解决不了这个包冲突，需要靠手动解决。</p>
+    boolean = isEmpty();
+    //判断当前字符串是否为空字符串(length是否为0)
+    //注意与null之间的区别
 
-<pre><code>AbstractMethodError
-NoClassDefFoundError
-ClassNotFoundException
-LinkageError
-</code></pre>
+    replace(target,replacement);
+    replaceAll(target,replacement);//前两个所有出现的都能换
+    replaceFirst(target,replacement);//第三个只换第一次出现的
+    //将给定的字符串替换成另外的字符串
 
-<h2 id="包管理冲突的解决">包管理冲突的解决</h2>
+    String[] = split(String regex[,int limit]);//按照给定的表达式将原来的字符串拆分开 &quot;a-b-c-d&quot; &quot;-&quot;
 
-<p>以运行一个程序得到如下异常为例:</p>
+    String = substring(int beginIndex[,int endIndex]); //[beginIndex,endIndex)
+    //将当前的字符串截取一部分,若ebdIndex不写 则默认到字符串最后
 
-<p><img src="/post2-1.jpg" alt="" /></p>
+    String = tpUpperCase();
+    String = tpLowerCase();
+    //将全部字符串转换成大写/小写
 
-<p>首先对冲突的包进行定位，可以从Maven的Dependency中找到对应的两个包，可以看到此项目中只有两个<code>org.springframework:spring-web</code>的包，5.1.8版本不受其他包所依赖，距离本项目较4.3.6版本更近，所以Maven是采用了5.1.8版本，所以我们可以很快地定位到运行项目缺失的类方法是在4.3.6版本中。</p>
+    String = trim();
+    //去掉字符串前后多余的空格
 
-<p><img src="/post2-2.jpg" alt="" /></p>
-
-<p>但是，如果这里发生冲突的包不止有两个呢？这时，就需要到Maven的中央仓库去查看源码进行定位了。</p>
-
-<p>定位到了发生冲突的包，那么接下来就该解决问题了。</p>
-
-<h3 id="方法一-在最近处添加一个新的包">方法一 在最近处添加一个新的包</h3>
-
-<p>在pom.xml文件中引入一个4.3.6版本的dependency即可</p>
-
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-web&lt;/artifactId&gt;
-    &lt;version&gt;4.3.6.RELEASE&lt;/version&gt;
-    &lt;scope&gt;compile&lt;/scope&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<h3 id="方法二-消除与其冲突的包">方法二 消除与其冲突的包</h3>
-
-<p>如果5.1.8版本包不被其他包所依赖，直接在pom.xml文件中将其dependency删去或者注释掉即可；如果5.1.8版本包受其他包所依赖，可在上级包的dependency中添加如下内容即可将5.1.8版本包从其中排除不受依赖。</p>
-
-<pre><code>&lt;exclusions&gt;
-            &lt;exclusion&gt;
-            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-web&lt;/artifactId&gt;
-            &lt;/exclusion&gt;
-&lt;/exclusions&gt;
+    boolean = matches(String regex);//匹配正则表达式
+    //regular expression 正则表达式
 </code></pre>
 
   </div>
@@ -179,13 +178,13 @@ LinkageError
 <section id="menu-pane" class="row menu text-center">
   
   
-  <span><a class="menu-item" href="https://wangsong.site/posts/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">&lt; prev | </a></span>
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB4-string%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%89%B9%E6%80%A7%E5%8F%8A%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/">&lt; prev | </a></span>
   
   
-  <span><a class="menu-item" href="/posts">posts</a></span>
+  <span><a class="menu-item" href="/notes">notes</a></span>
   
   
-  <span><a class="menu-item" href="https://wangsong.site/posts/collection%E4%BD%93%E7%B3%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%8F%8A%E5%85%B6%E8%83%8C%E5%90%8E%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"> | next &gt;</a></span>
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB6-string%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E7%BB%83%E4%B9%A0/"> | next &gt;</a></span>
   
   
   <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>

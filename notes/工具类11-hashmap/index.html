@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="description" content="Simple minimalist theme">
+<meta name="keywords" content="minimalist,blog,goa,hugo,developer">
+
+<base href="https://wangsong.site/">
+
+<title>
+  小松的学习笔记 - 工具类11 HashMap 
+</title>
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://wangsong.site/css/main.css">
+<link rel="stylesheet" href="https://wangsong.site/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="zh_CN">
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">工具类11 HashMap</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON NOV 10, 2019 
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    <p>Map 映射 通过某一个key可以直接定位到一个value值</p>
+
+<p>存储方式以 键值对 存储 key-value<br />
+key无序无重复 value无序可重复<br />
+key无序还是一样，指的是存入顺序与取得顺序不一致<br />
+key无重复指的是 元素不能一致</p>
+
+<p>1.map基本使用<br />
+    HashMap
+    TreeMap
+    Properties(读取文件中的信息)</p>
+
+<p>HashMap
+1.包java.util<br />
+2.如何创建对象<br />
+3.基本方法<br />
+    增删改查<br />
+    增put(key,value) 存放一组映射关系 key-value<br />
+        1.key存储的顺序与取得的顺序不同<br />
+        2.不同的key可以存储相同的value<br />
+        3.key若有相同的，则将原有的value覆盖而不是拒绝存入(跟set刚好相反)</p>
+
+<pre><code>删E = remove(key)
+改put(key,value1) put(key,value2)
+    replace(key,newValue)   
+查E = get(key)  
+遍历map集合？   key值不一定一样 
+```
+    获取到所有的key 便利key 通过key获取value
+    //获取mp集合的所有key   
+    Set&lt;k&gt; keys = map.keySet();
+    //获取entry 
+    Set&lt;Entry&gt; = entrySet();
+    //通过迭代器遍历keys    
+    Itetator&lt;K&gt; it = keys.iterator();
+    while(it.hasNext()){
+        K key = it.next();
+        V value = map.get(key); 
+    }
+```
+size();
+</code></pre>
+
+<p>4.除了上述的常用的方法外，其他API中提供的方法</p>
+
+<pre><code>    clear() 
+    containsKey(key) 
+    containsValue(value) 
+    getOrDefault(key,defaultValue);//如果key存在就返回对应的value,若没有找到就返回默认值    
+    isEmpty()
+    putAll(map) 
+    putOfAbsent(key,value);//如果key不存在才会向集合内添加，如果存在就不添加    
+</code></pre>
+
+<p>5.map集合在什么情况下使用<br />
+    1.想要存储一组元素<br />
+        数组or集合 如果存储的元素以后长度不变就用数组，如果以后长度不确定用集合<br />
+    2.如果发现长度以后不确定&mdash;&gt;集合</p>
+
+<pre><code>        List Set Map    
+        List家族有序的 存储有顺序用这个 
+            ArrayList 更适合遍历轮询
+            LinkedList 更适合插入和删除 
+            Stack LIFO  
+        Set家族无重复 存储元素希望启动去掉重复元素用这个    
+            Hash    
+            Tree 希望存进去的元素自动去重复，同时哈能自动排序    
+        Map家族k-v 通过唯一的k快速寻找v用这个   
+            Hash 性能更高   
+            Tree 希望存进去的元素key自动排序    
+</code></pre>
+
+<p>6.登录小流程</p>
+
+<pre><code class="language-java">    设计一个方法 用来登录认证 一维数组
+   
+    private String[] userBox = new String[]{&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;};
+    private int[] passwordBOX = new int[]{111,222,333};
+
+    public String loginForArray(String name,String password){
+       
+        for(int i=0;i&lt;userBox.length;i++){
+            if(userBox[i].equals(name)){
+                if(passwordBox[i]==Integer.parseInt(password)){
+                    return &quot;登录成功&quot;;
+                }
+             break;
+            }
+        }
+        return &quot;用户名或密码错误&quot;;
+    }
+
+</code></pre>
+
+<pre><code class="language-java">//设计一个方法，用来登录认证---ArrayList    
+private ArrayList&lt;String&gt; userBox = new ArrayList();
+{
+    userBox.add(&quot;张三-111&quot;);
+    userBox.add(&quot;李四-222&quot;);
+    userBox.add(&quot;王五-333&quot;);
+}
+public String loginForList(String name,String password){
+    for(int i=0;i&lt;userBox.size();i++){
+        String[] value = userBox.get(i).split(&quot;-&quot;);//一个人的信息 v[0] v[1]
+        if(value[0].equals(name)){
+            if(value[1].equals(password)){
+                return &quot;登录成功&quot;;
+            }
+            break;
+        }
+    }
+    return &quot;用户名或密码错误&quot;;
+}
+</code></pre>
+
+<pre><code class="language-java">//设计一个方法 用来登录认证----Set
+private HashSet&lt;String&gt; userBox = new HashSet();
+{
+    userBox.add(&quot;张三-111&quot;);
+    userBox.add(&quot;李四-222&quot;);
+    userBox.add(&quot;王五-333&quot;);
+}
+public String loginForSet(String name,String password){
+    Iterator&lt;String&gt; it =new Iterator();
+    while(it.hasNext()){
+        String[] value = it.next().split(&quot;-&quot;);
+        if(value[0].equals(name)){
+            if(value[1].equals(password)){
+                return &quot;登录成功&quot;;
+            }
+        }
+        break;
+    }
+return &quot;用户名或密码错误&quot;;
+}
+</code></pre>
+
+<pre><code class="language-java">//设计一个方法 用来登录认证---Map   
+private HashMap&lt;String, Integer&gt; userBox = new HashMap();
+{
+    userBox.put(&quot;张三&quot;,111);
+    userBox.put(&quot;李四&quot;,222);
+    userBox.put(&quot;王五&quot;,333);   
+} 
+public String loginForMap(String name,String password){
+    Integer realPassword = userBox.get(name);
+    if(realPassword!=null){//人名存在
+        if(realPassword.equals(Integer.parseInt(password))){
+            return &quot;登录成功&quot;;
+        }
+    }
+return &quot;用户名或密码错误&quot;;
+}
+</code></pre>
+
+<p>7.HashMap底层的数据结构存储     散列表的形式    数组+链表<br />
+    Person对象存入HashMap中？可以</p>
+
+<pre><code>    如果不重写hashCode 不同的对象能不能产生相同的hashCode值
+    hashCode方法----&gt;不同的对象 可以产生相同的hashCode码的  
+    不同的hashCode码---&gt;不同的对象  
+</code></pre>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-shenoybr-github-io-hugo-goa-demo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB10-hashset&#43;treeset/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/notes">notes</a></span>
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB12-treemap&#43;%E8%80%83%E8%AF%95%E7%B3%BB%E7%BB%9F%E7%BB%83%E4%B9%A0/"> | next &gt;</a></span>
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">© 2019. 王崧. <a href="http://creativecommons.org/licenses/by/3.0/">Some Rights Reserved</a>.</h6>
+  
+  <h6 class="text-center powered">Powered by <a href="https://gohugo.io/">Hugo  v0.58.3</a> &amp; <a href="https://github.com/shenoybr/hugo-goa">Goa</a>.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+

@@ -13,7 +13,7 @@
 <base href="https://wangsong.site/">
 
 <title>
-  小松的学习笔记 - Java、Maven的包管理 
+  小松的学习笔记 - 字节型文件流 
 </title>
 
 <meta name="generator" content="Hugo 0.58.3" />
@@ -44,13 +44,13 @@
 
 
 <header class="row text-left title">
-  <h1 class="title">Java、Maven的包管理</h1>
+  <h1 class="title">字节型文件流</h1>
 </header>
 <section id="category-pane" class="row meta">
   
   <div class="col-md-12">
     <h6 class="text-left meta">
-        PUBLISHED ON OCT 29, 2019 
+        PUBLISHED ON NOV 22, 2019 
       
     </h6>
   </div>
@@ -59,84 +59,84 @@
 <section id="content-pane" class="row">
   <div class="col-md-12 text-justify content">
     
-    
+    <p>流按照方向(功能)来区分<br />
+    in(读取)    out(写入)</p>
 
-<h2 id="java的包管理机制">Java的包管理机制</h2>
+<p>操作的目标来区分<br />
+    文件流  数组流  字符串流    数据流  对象流  网络流&hellip;</p>
 
-<p>包管理的本质就是告诉JVM如何找到所需的第三方类库，以及成功地解决其中的冲突问题。</p>
+<p>学习文件流&mdash;&ndash;&gt;
+    读取文件中的信息in  将信息写入文件中out<br />
+    文件流按照读取或写入的单位大小(字节数)来区分<br />
+    字节型文件流(1字节)<br />
+        FileInputStream/FileOutputStream<br />
+    字符型文件流(2字节&ndash;1字节)<br />
+        FileReader/FileWriter</p>
 
-<p>JVM的包管理机制非常简单：</p>
+<p>字节型文件输入流    FileInputStream
+1.包java.io
+2.继承关系 InputStream类 字节型输入流的父类<br />
+3.创建对象<br />
+    调用一个带File类型的的构造方法<br />
+    调用一个带String类型的构造方法<br />
+4.常用方法<br />
+    int code = read();每次从流管道中读取一个字节 返回字节的code码<br />
+    int count = read(byte[]);每次从流管道中读取若干个字节 存入数组内 返回有效元素<br />
+    int count = avaiable();返回流管道中海油多少缓存的字节数
+    skip(long n)跳过几个字节再读取<br />
+        多线程&mdash;&mdash;&gt;利用几个线程同时读取文件<br />
+    close();//将流管道关闭&mdash;-必须要做  最好放在finally里 注意代码的健壮性  判断严谨</p>
 
-<ul>
-<li>JVM一辈子只干一件事，读字节码文件，执行字节码。</li>
-<li>每当JVM看到一个全限定类名，就尝试从classpath中加载。</li>
-</ul>
-
-<p>要找一个类就在-classpath所指定的jar包(一堆类的压缩包)或文件夹中按照全限定类名(目录层级)挨个查找，找到为止，找不到就会丢出一个ClassNotFoundExeption。</p>
-
-<p>当多个同名类同时出现在classpath中，JVM就<code>只会加载放在前面的类</code>，导致了放在后面的想要使用的类得不到使用，这就是Classpath hell。</p>
-
-<p>由于传递性依赖，我们依赖的类可能还依赖类其他的类，classpath中会将所有依赖的类引用进来，这就导致classpath非常长，要解决Classpath hell，人工寻找classpath中的同名类非常困难，这就需要借助自动化工具来实现。</p>
-
-<h2 id="maven的包管理机制">Maven的包管理机制</h2>
-
-<p>Maven的仓库</p>
-
-<ul>
-<li>Maven的中央仓库：按照一定的约定存储包</li>
-<li>Maven的本地仓库：默认位于~/.m2,下载的第三方包放在这里进行缓存</li>
-</ul>
-
-<p>Maven按照约定为所有的包编号：groupId/artifactId/version，方便检索。</p>
-
-<p>当我们需要一个包时，Maven按照我们给出的编号，去仓库查找这个包，并根据依赖找到所有的包下载到本地，然后拼接成一个很长的classpath，以供JVM查找加载。</p>
-
-<p>作为依赖性的自动管理工具，Maven绝对不允许最终的classpath出现同名不同版本的jar包，其解决依赖冲突的原则是：<code>距离本项目最近的胜出</code> 。
-但这一原则并不能总是让我们得到需要的包，当看到这些异常的的时候，说明Maven解决不了这个包冲突，需要靠手动解决。</p>
-
-<pre><code>AbstractMethodError
-NoClassDefFoundError
-ClassNotFoundException
-LinkageError
+<pre><code>//创建一个字节型的文件输入流 读取一个文件中的内容   
+File file = new File(&quot;D://test//Test.txt&quot;);
+FileInputStream fis = new FileInputStream(file);//真实去读文件  
+int code = fis.read();//读取一个字节  
+while(code!=-1){
+    System.out.println(code);//读取的字节对应的Unicode码   0---65535
+    code=fis.read();
+} 
 </code></pre>
 
-<h2 id="包管理冲突的解决">包管理冲突的解决</h2>
+<pre><code>FileInputStream fis = new FileInputStream(new File(&quot;D://test//Test.txt&quot;));
+int v = fis.available();//流管道中有多少缓存的字节，读取网络数据可能会有问题
 
-<p>以运行一个程序得到如下异常为例:</p>
-
-<p><img src="/post2-1.jpg" alt="" /></p>
-
-<p>首先对冲突的包进行定位，可以从Maven的Dependency中找到对应的两个包，可以看到此项目中只有两个<code>org.springframework:spring-web</code>的包，5.1.8版本不受其他包所依赖，距离本项目较4.3.6版本更近，所以Maven是采用了5.1.8版本，所以我们可以很快地定位到运行项目缺失的类方法是在4.3.6版本中。</p>
-
-<p><img src="/post2-2.jpg" alt="" /></p>
-
-<p>但是，如果这里发生冲突的包不止有两个呢？这时，就需要到Maven的中央仓库去查看源码进行定位了。</p>
-
-<p>定位到了发生冲突的包，那么接下来就该解决问题了。</p>
-
-<h3 id="方法一-在最近处添加一个新的包">方法一 在最近处添加一个新的包</h3>
-
-<p>在pom.xml文件中引入一个4.3.6版本的dependency即可</p>
-
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-web&lt;/artifactId&gt;
-    &lt;version&gt;4.3.6.RELEASE&lt;/version&gt;
-    &lt;scope&gt;compile&lt;/scope&gt;
-&lt;/dependency&gt;
+byte[] b = new byte[5];
+int count = fis.read(b);//去文件里读东西 装入数组内 读取到的有效字节个数    
+while(count!=-1){
+    String value = new String(b);
+    System.out.println(value);
+    count = fis.read(b);
+}
+//要注意用的是一个数组，最后一次读取可能不能将上次的数据完全覆盖  
+解决方法是数组构建字符串时带偏移量设置字符串长度
+String value = new String(b,0,count);
 </code></pre>
 
-<h3 id="方法二-消除与其冲突的包">方法二 消除与其冲突的包</h3>
+<p>字节型文件输出流   FileOutputStream<br />
+    创建的是文件输入流 若文件路径有问题 则抛出异常FileNotFoundException<br />
+    创建的是文件输出流 若文件路径有问题 则直接帮我们创建一个新的文件<br />
+    1.java.io<br />
+    2.继承OutputStream 所有字节型输出流的父类<br />
+    3.创建对象<br />
+        调用一个带File参数 还有File boolean重载
+        调用一个带String参数 还有String boolean重载
+    4.常用方法<br />
+        write(int code);将给定code对应的字符写入文件<br />
+        write(byte[]);将数组内的全部字节写入文件    str.getByte()<br />
+        flush();将管道内的字节推入(刷新)文件<br />
+        clode();注意在finally中关闭</p>
 
-<p>如果5.1.8版本包不被其他包所依赖，直接在pom.xml文件中将其dependency删去或者注释掉即可；如果5.1.8版本包受其他包所依赖，可在上级包的dependency中添加如下内容即可将5.1.8版本包从其中排除不受依赖。</p>
-
-<pre><code>&lt;exclusions&gt;
-            &lt;exclusion&gt;
-            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-web&lt;/artifactId&gt;
-            &lt;/exclusion&gt;
-&lt;/exclusions&gt;
-</code></pre>
+<p>小任务<br />
+1.设计一个方法 文件的复制<br />
+    找到源文件 内容读一遍<br />
+    去创建一个新文件    将内容写进去<br />
+2.扩展设计一个方法 文件的加密、解密
+    读取内容
+    中间做一个小算法(加密) 可逆的<br />
+    写进去<br />
+3.扩展设计一个方法 文件夹的复制
+    配合着递归<br />
+    配合着流</p>
 
   </div>
 </section>
@@ -179,13 +179,13 @@ LinkageError
 <section id="menu-pane" class="row menu text-center">
   
   
-  <span><a class="menu-item" href="https://wangsong.site/posts/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">&lt; prev | </a></span>
+  <span><a class="menu-item" href="https://wangsong.site/notes/io%E4%B9%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E9%81%8D%E5%8E%86%E5%88%A0%E9%99%A4/">&lt; prev | </a></span>
   
   
-  <span><a class="menu-item" href="/posts">posts</a></span>
+  <span><a class="menu-item" href="/notes">notes</a></span>
   
   
-  <span><a class="menu-item" href="https://wangsong.site/posts/collection%E4%BD%93%E7%B3%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%8F%8A%E5%85%B6%E8%83%8C%E5%90%8E%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"> | next &gt;</a></span>
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%AD%97%E7%AC%A6%E5%9E%8B%E6%96%87%E4%BB%B6%E6%B5%81/"> | next &gt;</a></span>
   
   
   <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>

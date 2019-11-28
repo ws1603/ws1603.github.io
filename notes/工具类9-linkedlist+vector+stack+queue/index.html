@@ -13,7 +13,7 @@
 <base href="https://wangsong.site/">
 
 <title>
-  小松的学习笔记 - Java、Maven的包管理 
+  小松的学习笔记 - 工具类9 LinkedList&#43;Vector&#43;Stack&#43;Queue 
 </title>
 
 <meta name="generator" content="Hugo 0.58.3" />
@@ -44,13 +44,13 @@
 
 
 <header class="row text-left title">
-  <h1 class="title">Java、Maven的包管理</h1>
+  <h1 class="title">工具类9 LinkedList&#43;Vector&#43;Stack&#43;Queue</h1>
 </header>
 <section id="category-pane" class="row meta">
   
   <div class="col-md-12">
     <h6 class="text-left meta">
-        PUBLISHED ON OCT 29, 2019 
+        PUBLISHED ON NOV 10, 2019 
       
     </h6>
   </div>
@@ -61,82 +61,57 @@
     
     
 
-<h2 id="java的包管理机制">Java的包管理机制</h2>
+<h3 id="vector类">Vector类</h3>
 
-<p>包管理的本质就是告诉JVM如何找到所需的第三方类库，以及成功地解决其中的冲突问题。</p>
+<p>1.java.util包<br />
+2.是ArrayList集合的早期版本 (StringBuffer早期，Stringbuilder后来)<br />
+    Vector底层也是利用(动态)数组的形式存储
+    Vector是线程同步的(synchronized)，安全性高，效率低<br />
+3.扩容机制与ArrayList不同，默认是扩容2倍    (ArrayList是1.5)，可以通过构造方式创建对象修改这一机制<br />
+4.构造方法<br />
+5.常用方法</p>
 
-<p>JVM的包管理机制非常简单：</p>
+<h3 id="stack类-栈">Stack类 栈</h3>
 
-<ul>
-<li>JVM一辈子只干一件事，读字节码文件，执行字节码。</li>
-<li>每当JVM看到一个全限定类名，就尝试从classpath中加载。</li>
-</ul>
+<p>1.java.util包<br />
+2.构造方法只有一个无参数
+3.除了继承自Vector类的方法外还有几个特殊方法</p>
 
-<p>要找一个类就在-classpath所指定的jar包(一堆类的压缩包)或文件夹中按照全限定类名(目录层级)挨个查找，找到为止，找不到就会丢出一个ClassNotFoundExeption。</p>
-
-<p>当多个同名类同时出现在classpath中，JVM就<code>只会加载放在前面的类</code>，导致了放在后面的想要使用的类得不到使用，这就是Classpath hell。</p>
-
-<p>由于传递性依赖，我们依赖的类可能还依赖类其他的类，classpath中会将所有依赖的类引用进来，这就导致classpath非常长，要解决Classpath hell，人工寻找classpath中的同名类非常困难，这就需要借助自动化工具来实现。</p>
-
-<h2 id="maven的包管理机制">Maven的包管理机制</h2>
-
-<p>Maven的仓库</p>
-
-<ul>
-<li>Maven的中央仓库：按照一定的约定存储包</li>
-<li>Maven的本地仓库：默认位于~/.m2,下载的第三方包放在这里进行缓存</li>
-</ul>
-
-<p>Maven按照约定为所有的包编号：groupId/artifactId/version，方便检索。</p>
-
-<p>当我们需要一个包时，Maven按照我们给出的编号，去仓库查找这个包，并根据依赖找到所有的包下载到本地，然后拼接成一个很长的classpath，以供JVM查找加载。</p>
-
-<p>作为依赖性的自动管理工具，Maven绝对不允许最终的classpath出现同名不同版本的jar包，其解决依赖冲突的原则是：<code>距离本项目最近的胜出</code> 。
-但这一原则并不能总是让我们得到需要的包，当看到这些异常的的时候，说明Maven解决不了这个包冲突，需要靠手动解决。</p>
-
-<pre><code>AbstractMethodError
-NoClassDefFoundError
-ClassNotFoundException
-LinkageError
+<pre><code>    push(E e) 将某一个元素压如栈顶     
+    E = pop() 将某一个元素从栈顶取出并删掉(E = remove())
+    E = peek() 查看栈顶的一个元素,不删除
+    boolean = empty() 判断栈顶元素是否为空
+    int = search() 查找给定的元素在栈中的位置   
 </code></pre>
 
-<h2 id="包管理冲突的解决">包管理冲突的解决</h2>
+<h3 id="queue接口">Queue接口</h3>
 
-<p>以运行一个程序得到如下异常为例:</p>
+<p>1.java.util<br />
+通常子类LinkedList,ArratDeque<br />
+2.通常无参数构造方法创建<br />
+3.一般方法<br />
+    add()<br />
+    element()&mdash;&gt;get()<br />
+    remove()</p>
 
-<p><img src="/post2-1.jpg" alt="" /></p>
-
-<p>首先对冲突的包进行定位，可以从Maven的Dependency中找到对应的两个包，可以看到此项目中只有两个<code>org.springframework:spring-web</code>的包，5.1.8版本不受其他包所依赖，距离本项目较4.3.6版本更近，所以Maven是采用了5.1.8版本，所以我们可以很快地定位到运行项目缺失的类方法是在4.3.6版本中。</p>
-
-<p><img src="/post2-2.jpg" alt="" /></p>
-
-<p>但是，如果这里发生冲突的包不止有两个呢？这时，就需要到Maven的中央仓库去查看源码进行定位了。</p>
-
-<p>定位到了发生冲突的包，那么接下来就该解决问题了。</p>
-
-<h3 id="方法一-在最近处添加一个新的包">方法一 在最近处添加一个新的包</h3>
-
-<p>在pom.xml文件中引入一个4.3.6版本的dependency即可</p>
-
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-web&lt;/artifactId&gt;
-    &lt;version&gt;4.3.6.RELEASE&lt;/version&gt;
-    &lt;scope&gt;compile&lt;/scope&gt;
-&lt;/dependency&gt;
+<pre><code>boolean = offer(E e);//相当于add,可以处理异常
+E = peek();//相当于 element方法  
+E = poll();//剪短,相当于remove()    
 </code></pre>
 
-<h3 id="方法二-消除与其冲突的包">方法二 消除与其冲突的包</h3>
+<p>LinkedList<br />
+List的子类，Queue的子类<br />
+1.java.uitl包   自己封装过的LinkedBox<br />
+2.底层使用双向链表的数据结构形式来存储，更适合插入和删除不适合遍历轮询<br />
+3.构建对象<br />
+    无参数构造方法，单参数的构造方法(collection)
+    ArrayList<String> array = new ArrayList();
+    LinkedList<String> linked = new LinkedList(array);</p>
 
-<p>如果5.1.8版本包不被其他包所依赖，直接在pom.xml文件中将其dependency删去或者注释掉即可；如果5.1.8版本包受其他包所依赖，可在上级包的dependency中添加如下内容即可将5.1.8版本包从其中排除不受依赖。</p>
-
-<pre><code>&lt;exclusions&gt;
-            &lt;exclusion&gt;
-            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-web&lt;/artifactId&gt;
-            &lt;/exclusion&gt;
-&lt;/exclusions&gt;
-</code></pre>
+<p>4.常用的方法<br />
+    增删改查 add() remove() set() get() size() offer() poll() peek()<br />
+    手册中提供的其他常用方法<br />
+    addAll() addFirst() addLast() clear() contain() element() getFirst() getLast() indexOf() lastIndex()&hellip;</p>
 
   </div>
 </section>
@@ -179,13 +154,13 @@ LinkageError
 <section id="menu-pane" class="row menu text-center">
   
   
-  <span><a class="menu-item" href="https://wangsong.site/posts/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">&lt; prev | </a></span>
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB8-list%E9%9B%86%E5%90%88/">&lt; prev | </a></span>
   
   
-  <span><a class="menu-item" href="/posts">posts</a></span>
+  <span><a class="menu-item" href="/notes">notes</a></span>
   
   
-  <span><a class="menu-item" href="https://wangsong.site/posts/collection%E4%BD%93%E7%B3%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%8F%8A%E5%85%B6%E8%83%8C%E5%90%8E%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"> | next &gt;</a></span>
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E5%B7%A5%E5%85%B7%E7%B1%BB10-hashset&#43;treeset/"> | next &gt;</a></span>
   
   
   <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>
