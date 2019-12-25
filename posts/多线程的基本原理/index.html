@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="description" content="Simple minimalist theme">
+<meta name="keywords" content="minimalist,blog,goa,hugo,developer">
+
+<base href="https://wangsong.site/">
+
+<title>
+  小松的学习笔记 - 多线程的基本原理 
+</title>
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://wangsong.site/css/main.css">
+<link rel="stylesheet" href="https://wangsong.site/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="zh_CN">
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">多线程的基本原理</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON DEC 23, 2019 
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    
+
+<h3 id="为什么要使用多线程">为什么要使用多线程？</h3>
+
+<p>CPU的速度是非常快的，例如一个3GHz的CPU做一件事的时间是0.3ns，但是内存的读取速度大概在100ns，磁盘读取的速度更是慢到10ms。这就意味着CPU在读取内存或硬盘的这段时间只能等待，浪费了太多时间，可参考<a href="https://cizixs.com/2017/01/03/how-slow-is-disk-and-network/">让 CPU 告诉你硬盘和网络到底有多慢</a>。</p>
+
+<p>默认情况下，我们执行的程序只有一个线程，这让处理问题非常自然，但是却有严重的性能问题，因为Java执行模型是同步/阻塞的，只有在执行完一行代码后才能执行下一行代码，遇上I/O等速度慢的操作，CPU的效率将大打折扣。</p>
+
+<p>解决的方法便是使用多线程，让CPU用等待的时间去做其他的事，尽可能提升CPU的效率。</p>
+
+<p>多线程带来的性能提升，对于IO密集型应用极有作用，包括网络IO(通常包括数据库)、文件IO；而对于CPU密集型应用的作用作用就不那么明显了。</p>
+
+<p>性能提升的上限： 单核CPU 100%  ， 多核CPU N*100%</p>
+
+<h4 id="使用thread时应注意">使用Thread时应注意</h4>
+
+<pre><code>Java中只有这么一种方法代表线程      
+使用start()方法才能并发执行       
+每多开一个线程，就多一个执行流      
+每个方法栈(局部变量)是线程私有的            
+静态变量/类变量是被所有线程共享的           
+</code></pre>
+
+<h3 id="多线程带来的问题及解决方法">多线程带来的问题及解决方法</h3>
+
+<blockquote>
+<p>线程难的本质原因是你要看着同一份代码，想象不同的人在疯狂地以乱序执行它。</p>
+</blockquote>
+
+<p>多个线程访问共享变量，由于访问是乱序的，如果对共享变量的操作不是原子的，就可能会导致得到错误的结果。<br />
+例如： i++这件事不是一个原子操作，它有三个操作：<br />
+<code>取i的值</code><br />
+<code>把i的值加一</code><br />
+<code>把修改后的值写回i</code><br />
+如果当某个线程执行到把i的值加一还没来得及写回i，分配的时间片就用完了，CPU转而执行其他线程时取的i的值还是原先的值，这也就意味着i++操作执行了两次但i实际上只加了一次，于是导致最终结果出错。</p>
+
+<p>这种多个线程对同一个对象中的同一个实例变量进行操作时出现的值被更改、值不同步的情况，进而影响程序的执行流程的行为称为非线程安全。</p>
+
+<p>解决线程非安全的办法是在某个方法前加上<code>synchronized</code>关键字修饰，使多个线程在执行此方法时，以排队的方式进行处理。当一个线程调用此方法前，先判断这个方法有没有被上锁，如果上锁，说明有其他线程正在调用这个方法，必须等其他线程对这个方法调用结束后才可以执行这个方法。这样也就实现了排队调用这个方法的目的，达到了按顺序对 count 变量减 1 的效果。synchronized 可以在任意对象及方法上加锁，而加锁的这段代码称为“互斥区” 或“临界区”。</p>
+
+<pre><code>    synchronized  public void method()
+    { 
+        count--; 
+        //do something else
+    }
+</code></pre>
+
+<p>synchronized 不仅可以用到同步方法，也可以用到同步块。对于同步块，synchronized 获取的是参数中的对象锁。</p>
+
+<pre><code>public void method()
+{
+    Object obj=new Object();
+    synchronized(obj)
+    {
+        count--;
+        //do something else
+    }
+}
+</code></pre>
+
+<p>当一个线程想要执行同步方法里面的代码时，线程首先尝试去拿这把锁，如果能够拿到锁，那么这个线程就可以执行 synchronize 里面的代码。如果不能拿到锁，那么这个线程就会不断地尝试拿锁，直到能够拿到为止，而且有多个线程同时去争抢这把锁。</p>
+
+<h3 id="线程的生命周期">线程的生命周期</h3>
+
+<p>包括7种状态，分别是出生状态、就绪状态、运行状态、等待状态、休眠状态、阻塞状态和死亡状态。<br />
+<img src="线程生命周期.jpg" alt="" /></p>
+
+<p>下面对线程生命周期中的7种状态做说明<br />
+1.出生状态：用户在创建线程时所处的状态，在用户使用线程实例调用start()方法之前，线程都处于出生状态。<br />
+2.就绪状态：也称可执行状态，当用户调用start()方法之后，线程处于就绪状态。<br />
+3.运行状态：当线程得到系统资源后进入运行状态。<br />
+4.等待状态：当处于运行状态下的线程调用Thread类的wait()方法时，该线程就会进入等待状态。进入等待状态的线程必须调用Thread类的notify()方法才能被唤醒。notifyAll()方法是将所有处于等待状态下的线程唤醒。<br />
+5.休眠状态：当线程调用Thread类中的sleep()方法时，则会进入休眠状态。<br />
+6.阻塞状态：如果一个线程在运行状态下发出输入/输出请求，该线程将进入阻塞状态，在其等待输入/输出结束时，该线程进入就绪状态。对阻塞的线程来说，即使系统资源关闭，线程依然不能回到运行状态。<br />
+7.死亡状态：当线程run()方法执行完毕，线程进入死亡状态。</p>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-shenoybr-github-io-hugo-goa-demo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/posts/collection%E4%BD%93%E7%B3%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%8F%8A%E5%85%B6%E8%83%8C%E5%90%8E%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/posts">posts</a></span>
+  
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">© 2019. 王崧. <a href="http://creativecommons.org/licenses/by/3.0/">Some Rights Reserved</a>.</h6>
+  
+  <h6 class="text-center powered">Powered by <a href="https://gohugo.io/">Hugo  v0.58.3</a> &amp; <a href="https://github.com/shenoybr/hugo-goa">Goa</a>.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+
