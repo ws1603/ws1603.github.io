@@ -36,6 +36,15 @@ public void method() { Object obj=new Object(); synchronized(obj) { count--; //d
     </item>
     
     <item>
+      <title>登录</title>
+      <link>https://wangsong.site/notes/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/</link>
+      <pubDate>Thu, 28 Nov 2019 15:36:34 +0800</pubDate>
+      
+      <guid>https://wangsong.site/notes/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/</guid>
+      <description>import java.util.ArrayList; import java.util.HashMap; import java.util.Iterator; // import java.util.HashSet; // import java.util.TreeSet; // public class Main{ // public static void main(String[] args) { // // HashSet&amp;lt;String&amp;gt; stringSet = new HashSet(); // // stringSet.add(&amp;quot;a&amp;quot;); // // stringSet.add(&amp;quot;a&amp;quot;); // // stringSet.add(&amp;quot;a&amp;quot;); // // System.out.println(stringSet.size());//输出1 // // HashSet&amp;lt;Person&amp;gt; personSet = new HashSet(); // // personSet.add(new Person(&amp;quot;b&amp;quot;,1)); // // personSet.add(new Person(&amp;quot;b&amp;quot;,2)); // // personSet.add(new Person(&amp;quot;b&amp;quot;,3)); // // System.out.println(personSet.size());//输出3 // // System.out.println(personSet.iterator().next().getNum());//输出为1 // TreeSet&amp;lt;Person&amp;gt; pts = new TreeSet(); // pts.</description>
+    </item>
+    
+    <item>
       <title>Collection体系的常用类及其背后的数据结构</title>
       <link>https://wangsong.site/posts/collection%E4%BD%93%E7%B3%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%8F%8A%E5%85%B6%E8%83%8C%E5%90%8E%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
       <pubDate>Wed, 27 Nov 2019 22:55:04 +0800</pubDate>
@@ -176,7 +185,7 @@ close();//将流管道关闭&amp;mdash;-必须要做 最好放在finally里 注�
     </item>
     
     <item>
-      <title>O相关</title>
+      <title>IO相关</title>
       <link>https://wangsong.site/notes/io%E4%B9%8Bfile%E7%B1%BB/</link>
       <pubDate>Fri, 22 Nov 2019 15:18:41 +0800</pubDate>
       

@@ -6,10 +6,19 @@
     <description>Recent content in Notes on 小松的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Sun, 24 Nov 2019 10:40:12 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 28 Nov 2019 15:36:34 +0800</lastBuildDate>
     
 	<atom:link href="https://wangsong.site/notes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>登录</title>
+      <link>https://wangsong.site/notes/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/</link>
+      <pubDate>Thu, 28 Nov 2019 15:36:34 +0800</pubDate>
+      
+      <guid>https://wangsong.site/notes/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/</guid>
+      <description>import java.util.ArrayList; import java.util.HashMap; import java.util.Iterator; // import java.util.HashSet; // import java.util.TreeSet; // public class Main{ // public static void main(String[] args) { // // HashSet&amp;lt;String&amp;gt; stringSet = new HashSet(); // // stringSet.add(&amp;quot;a&amp;quot;); // // stringSet.add(&amp;quot;a&amp;quot;); // // stringSet.add(&amp;quot;a&amp;quot;); // // System.out.println(stringSet.size());//输出1 // // HashSet&amp;lt;Person&amp;gt; personSet = new HashSet(); // // personSet.add(new Person(&amp;quot;b&amp;quot;,1)); // // personSet.add(new Person(&amp;quot;b&amp;quot;,2)); // // personSet.add(new Person(&amp;quot;b&amp;quot;,3)); // // System.out.println(personSet.size());//输出3 // // System.out.println(personSet.iterator().next().getNum());//输出为1 // TreeSet&amp;lt;Person&amp;gt; pts = new TreeSet(); // pts.</description>
+    </item>
     
     <item>
       <title>生产者消费者模型</title>
@@ -127,7 +136,7 @@ close();//将流管道关闭&amp;mdash;-必须要做 最好放在finally里 注�
     </item>
     
     <item>
-      <title>O相关</title>
+      <title>IO相关</title>
       <link>https://wangsong.site/notes/io%E4%B9%8Bfile%E7%B1%BB/</link>
       <pubDate>Fri, 22 Nov 2019 15:18:41 +0800</pubDate>
       
