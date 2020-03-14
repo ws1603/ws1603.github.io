@@ -13,12 +13,11 @@
 <base href="https://wangsong.site/">
 
 <title>
-  小松的学习笔记 - Posts 
+  小松的学习笔记 - 线程join方法、死锁、Timer等 
 </title>
 
 <meta name="generator" content="Hugo 0.58.3" />
 
-<link rel="alternate" type="application/rss&#43;xml" href="https://wangsong.site/posts/index.xml">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 
@@ -44,79 +43,72 @@
 <div class="container">
 
 
-<section id="list-pane" class="row list">
-  <ul >
-    
-    <li class="list-entry">
-      <a class="list-entry-link" href="https://wangsong.site/posts/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/">多线程的基本原理</a>
-      <p class="meta">
-         DEC 23, 2019 
-        <span class="category">
-        
-        </span>
-      </p>
-      <p class="excerpt">
+<header class="row text-left title">
+  <h1 class="title">线程join方法、死锁、Timer等</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON NOV 30, 2019 
       
-      </p>
-    </li>
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
     
-    <li class="list-entry">
-      <a class="list-entry-link" href="https://wangsong.site/posts/collection%E4%BD%93%E7%B3%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%8F%8A%E5%85%B6%E8%83%8C%E5%90%8E%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">Collection体系的常用类及其背后的数据结构</a>
-      <p class="meta">
-         NOV 27, 2019 
-        <span class="category">
-        
-        </span>
-      </p>
-      <p class="excerpt">
+    <p>比较重要的方法 join&mdash;-&gt;Thread类<br />
+    设计一个模型</p>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
       
-      </p>
-    </li>
-    
-    <li class="list-entry">
-      <a class="list-entry-link" href="https://wangsong.site/posts/javamaven%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86/">Java、Maven的包管理</a>
-      <p class="meta">
-         OCT 29, 2019 
-        <span class="category">
-        
-        </span>
-      </p>
-      <p class="excerpt">
-      
-      </p>
-    </li>
-    
-    <li class="list-entry">
-      <a class="list-entry-link" href="https://wangsong.site/posts/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">如何使用Hugo搭建个人博客</a>
-      <p class="meta">
-         OCT 28, 2019 
-        <span class="category">
-        
-        </span>
-      </p>
-      <p class="excerpt">
-      
-      </p>
-    </li>
-    
-    <li class="list-entry">
-      <a class="list-entry-link" href="https://wangsong.site/posts/html%E5%B8%B8%E7%94%A8%E6%A0%87%E7%AD%BE/">HTML常用标签</a>
-      <p class="meta">
-        
-        <span class="category">
-        
-        </span>
-      </p>
-      <p class="excerpt">
-      
-      </p>
-    </li>
-    
-  </ul>
+    </h6>
+  </div>
+  
 </section>
 
 
+
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-shenoybr-github-io-hugo-goa-demo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
 <section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/notes/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/notes">notes</a></span>
+  
+  
   
   <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>
 </section>
@@ -167,4 +159,5 @@ if (!doNotTrack) {
 <script src="js/custom.js"></script>
 </body>
 </html>
+
 

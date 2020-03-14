@@ -36,6 +36,16 @@ public void method() { Object obj=new Object(); synchronized(obj) { count--; //d
     </item>
     
     <item>
+      <title>线程join方法、死锁、Timer等</title>
+      <link>https://wangsong.site/notes/%E7%BA%BF%E7%A8%8Bjoin%E6%96%B9%E6%B3%95%E6%AD%BB%E9%94%81timer%E7%AD%89/</link>
+      <pubDate>Sat, 30 Nov 2019 17:13:37 +0800</pubDate>
+      
+      <guid>https://wangsong.site/notes/%E7%BA%BF%E7%A8%8Bjoin%E6%96%B9%E6%B3%95%E6%AD%BB%E9%94%81timer%E7%AD%89/</guid>
+      <description>比较重要的方法 join&amp;mdash;-&amp;gt;Thread类
+设计一个模型</description>
+    </item>
+    
+    <item>
       <title>登录</title>
       <link>https://wangsong.site/notes/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/</link>
       <pubDate>Thu, 28 Nov 2019 15:36:34 +0800</pubDate>
@@ -499,12 +509,12 @@ AbstractMethodError NoClassDefFoundError ClassNotFoundException LinkageError  �
     </item>
     
     <item>
-      <title>Myblog</title>
-      <link>https://wangsong.site/myblog/</link>
+      <title>MyPage</title>
+      <link>https://wangsong.site/mypage/</link>
       <pubDate>Mon, 28 Oct 2019 12:35:52 +0800</pubDate>
       
-      <guid>https://wangsong.site/myblog/</guid>
-      <description></description>
+      <guid>https://wangsong.site/mypage/</guid>
+      <description> hello </description>
     </item>
     
     <item>
@@ -522,9 +532,20 @@ cd github.io-creator git init git submodule add https://github.com/budparr/gohug
 创建文章 输入命令
 hugo new posts/我的博客.md  Hugo会在content目录下创建post目录，在post目录下创建scala-learning-pattern-matching.md文件。之后打开md文件，里面已经有些内容：
 这里的的draft默认状态为true,需要修改为false才能发布。
-查看生成的文章 草稿状态下 输入命令hugo sever -D
-非草稿状态下 输入hugo sever
+查看生成的文章 草稿状态下 输入命令hugo server -D
+非草稿状态下 输入hugo server
 可得到如下结果：</description>
+    </item>
+    
+    <item>
+      <title>HTML常用标签</title>
+      <link>https://wangsong.site/posts/html%E5%B8%B8%E7%94%A8%E6%A0%87%E7%AD%BE/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://wangsong.site/posts/html%E5%B8%B8%E7%94%A8%E6%A0%87%E7%AD%BE/</guid>
+      <description>a 标签 属性  href target download rel=noopener  作用  跳转外部页面 跳转内部锚点 跳转到邮箱或电话等  a 的 href 的取值 网址  https://google.com http://google.com //google.com  路径  /a/b/c 以及 a/b/c index.html 以及 ./index.html  伪协议  javascript:代码; mailto:邮箱 tel:手机号 (注意逗号和分号)  id  href=#xxx  注：href=&amp;ldquo;javascript:;&amp;rdquo; 什么都不做的伪协议，点击后页面不会刷新，也不会回到顶部
+href=&amp;ldquo;#xxx&amp;rdquo; 跳转到指定 id 的标签
+a 的 target 的取值 内置名字  _blank 在新的页面打开 _top 最顶层页面打开 _parent 在父级页面打开 _self 默认值，在当前页面打开  程序员命名  window 的 name iframe 的 name  a 的 download 作用  不是打开页面，而是下载页面  问题  不是所有浏览器都支持，尤其是手机浏览器不可能支持  table 标签 相关的 table  table thead tbody tfoot tr td th  table 标签里面只能使用三个标签 thead tbody tfoot</description>
     </item>
     
   </channel>

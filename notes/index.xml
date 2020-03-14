@@ -6,10 +6,20 @@
     <description>Recent content in Notes on 小松的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Thu, 28 Nov 2019 15:36:34 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 30 Nov 2019 17:13:37 +0800</lastBuildDate>
     
 	<atom:link href="https://wangsong.site/notes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>线程join方法、死锁、Timer等</title>
+      <link>https://wangsong.site/notes/%E7%BA%BF%E7%A8%8Bjoin%E6%96%B9%E6%B3%95%E6%AD%BB%E9%94%81timer%E7%AD%89/</link>
+      <pubDate>Sat, 30 Nov 2019 17:13:37 +0800</pubDate>
+      
+      <guid>https://wangsong.site/notes/%E7%BA%BF%E7%A8%8Bjoin%E6%96%B9%E6%B3%95%E6%AD%BB%E9%94%81timer%E7%AD%89/</guid>
+      <description>比较重要的方法 join&amp;mdash;-&amp;gt;Thread类
+设计一个模型</description>
+    </item>
     
     <item>
       <title>登录</title>
