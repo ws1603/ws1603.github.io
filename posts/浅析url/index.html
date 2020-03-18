@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="description" content="Simple minimalist theme">
+<meta name="keywords" content="minimalist,blog,goa,hugo,developer">
+
+<base href="https://wangsong.site/">
+
+<title>
+  小松的学习笔记 - 浅析URL 
+</title>
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://wangsong.site/css/main.css">
+<link rel="stylesheet" href="https://wangsong.site/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="zh_CN">
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">浅析URL</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON MAR 14, 2020 
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    
+
+<h3 id="url的组成及作用">URL的组成及作用</h3>
+
+<p>URL(Uniform Resource Locator,统一资源定位符)的组成：<br />
+<code>协议+域名或IP+端口号+路径+查询字符串+锚点</code></p>
+
+<p><img src="URL的组成.jpg" alt="" /></p>
+
+<h4 id="协议">协议</h4>
+
+<p>http(HyperText Transfer Protocol)/https(HyperText Transfer Protocol Secure),规定请求的格式是什么，响应的格式是什么。<br />
+http不是安全的，而且攻击者可以通过监听和中间人攻击等手段，获取网站帐户和敏感信息等。<br />
+ https的设计可以防止前述攻击，在正确配置时是安全的。</p>
+
+<h4 id="ip地址">IP地址</h4>
+
+<p>IP地址(Internet Protocol Address)，是分配给网络上使用网际协议的设备的数字标签。<br />
+IP地址主要有两个功能：标识主机或网络 和 寻址。</p>
+
+<h4 id="域名">域名</h4>
+
+<p>域名，是一个IP地址的别称，目的是为了便于记忆后者。<code>wikipedia.org</code>是一个域名，和IP地址<code>208.80.152.2</code>相对应。人们可以直接访问wikipedia.org来代替IP地址，然后域名系统（DNS）就会将它转化成便于机器识别的IP地址。这样，人们只需要记忆wikipedia.org这一串带有特殊含义的字符，而不需要记忆没有含义的数字。<br />
+一个域名可以对应不同的IP，这个叫做均衡负载。<br />
+一个IP可以对应不同的域名，这个叫做主机共享。</p>
+
+<pre><code>注意www.baidu.com和baidu.com并不是同一个域名。  
+com是顶级域名   
+baidu.com是二级域名(俗称一级域名)   
+www.baidu.com是三级域名(俗称二级域名)   
+它们是父子关系  
+www.xxx.com和xxx.com可以是同一家公司，也可以不是。      
+</code></pre>
+
+<h4 id="端口">端口</h4>
+
+<p>端口(port)，在电脑网络中是一种经由软件创建的服务，在一个电脑操作系统中扮演通信的端点（endpoint）。每个端口都会与主机的IP地址及通信协议关联。端口以16比特数字来表示，这被称为端口编号（port number）。<br />
+一共有<code>65535</code>个端口，0到1023(2的10次方减1)号端口是留给系统使用的，要使用这<code>1024</code>个端口需要提供管理员权限。如果一个端口被占用，就只能使用另一个端口。<br />
+<code>http</code>默认使用<code>80</code>端口<br />
+<code>https</code>默认使用<code>443</code>端口<br />
+<code>http-server</code>默认使用<code>8080</code>端口<br />
+总之，IP和端口是缺一不可的。</p>
+
+<h4 id="路径">路径</h4>
+
+<p>在IP/域名或端口号后通过路径可以访问到具体的页面，通过不同的路径请求不同的页面。<br />
+<img src="URL路径.jpg" alt="" /></p>
+
+<h4 id="查询参数">查询参数</h4>
+
+<p>查询参数可以使得同一个页面访问不同内容。<br />
+<img src="URL查询参数.jpg" alt="" /></p>
+
+<h4 id="锚点">锚点</h4>
+
+<p>锚点，可以使得同一个内容跳转到不同的位置。<br />
+<img src="URL锚点.jpg" alt="" /></p>
+
+<h3 id="dns的作用及nslookup命令">DNS的作用及nslookup命令</h3>
+
+<p>IP和域名是通过DNS对应起来的。<br />
+<code>DNS</code>(Domain Name System)，是互联网的一项服务。它作为将域名和IP地址相互映射的一个分布式数据库，可将域名转换成IP地址，使人们可以使用域名更方便地访问互联网。</p>
+
+<p><code>nslookup</code>是许多计算机操作系统中可用的网络管理命令行工具，用于查询域名系统以获得域名或IP地址映射或其他DNS记录。<br />
+<img src="nslookup命令.jpg" alt="" /></p>
+
+<h3 id="ip的作用及ping命令">IP的作用及ping命令</h3>
+
+<h4 id="ip的作用">IP的作用</h4>
+
+<p>Internet Protocal主要约定了两件事：<br />
+1. <code>标识主机</code>。更具体地说，<code>标识其网络接口</code>，并且<code>提供主机在网络中的位置</code>。<br />
+2. <code>网络寻址</code>。 网际协议(IP)的一个重要机制就是网络寻址(internet address)。该功能的目的是将<code>数据报</code>从一个网络模块 送到 目的地。在发送的整个过程，IP地址(address)充当着<code>目的地的位置</code>，域名(name)意味着我们要找什么，路由(route)代表着如何到达目的地的这个过程。每个IP数据包的标头包含了<code>发送主机的IP地址</code>和<code>目的主机的IP地址</code>。</p>
+
+<h4 id="ping命令">ping命令</h4>
+
+<p><code>ping</code>是一种计算机网络工具，用来测试数据包能否透过IP协议到达特定主机。ping的运作原理是向目标主机传出一个ICMP的请求回显数据包，并等待接收回显回应数据包。程序会按时间和成功响应的次数估算丢失数据包率(丢包率)和数据包往返时间(网络时延，Round-trip delay time)。</p>
+
+<p><img src="ping命令.jpg" alt="" /></p>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-shenoybr-github-io-hugo-goa-demo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="https://wangsong.site/posts/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/posts">posts</a></span>
+  
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="https://wangsong.site/">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">© 2019. 王崧. <a href="http://creativecommons.org/licenses/by/3.0/">Some Rights Reserved</a>.</h6>
+  
+  <h6 class="text-center powered">Powered by <a href="https://gohugo.io/">Hugo  v0.58.3</a> &amp; <a href="https://github.com/shenoybr/hugo-goa">Goa</a>.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+
