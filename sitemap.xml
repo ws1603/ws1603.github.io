@@ -3,12 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://wangsong.site/posts/</loc>
-    <lastmod>2020-03-14T20:20:16+08:00</lastmod>
+    <loc>https://wangsong.site/problems/</loc>
+    <lastmod>2020-04-02T20:29:52+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://wangsong.site/</loc>
+    <lastmod>2020-04-02T20:29:52+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wangsong.site/problems/problems/</loc>
+    <lastmod>2020-04-02T20:29:52+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wangsong.site/posts/</loc>
     <lastmod>2020-03-14T20:20:16+08:00</lastmod>
   </url>
   
