@@ -6,10 +6,108 @@
     <description>Recent content on 小松的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Thu, 02 Apr 2020 20:29:52 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 04 Apr 2020 14:13:12 +0800</lastBuildDate>
     
 	<atom:link href="https://wangsong.site/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Words</title>
+      <link>https://wangsong.site/leetcode-log/words/</link>
+      <pubDate>Sat, 04 Apr 2020 14:13:12 +0800</pubDate>
+      
+      <guid>https://wangsong.site/leetcode-log/words/</guid>
+      <description>Unit 1 secure
+gear
+suite
+suit
+decay
+retreat
+preach
+counter
+rebel
+counteract
+counterpart
+agent
+delegate
+deputy
+quantitative
+Unit 2 appropriate
+controversy
+dispute
+quarrelsome
+avail
+peculiar
+speciality
+hedge
+benefit
+reclaim
+proclaim
+allege
+assert
+profess
+communicate
+community
+regarding
+expenditure
+contribute
+delicate
+enterprise
+Unit 3 cultivate
+nurture
+nourish
+civil
+savage
+literally
+decline
+descent
+finite
+infinite
+exemplify
+manifest
+depict
+portray
+specify
+directory
+immediate
+Unit 4 motion
+incentive
+monetary
+appliance
+applicable
+utilize/ise
+exploit
+critical</description>
+    </item>
+    
+    <item>
+      <title>学习目标</title>
+      <link>https://wangsong.site/designpartens/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/</link>
+      <pubDate>Sat, 04 Apr 2020 12:23:43 +0800</pubDate>
+      
+      <guid>https://wangsong.site/designpartens/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/</guid>
+      <description>面向对象的三大特性  封装：隐藏内部实现 继承：复用现有代码 多态：改写对象行为  面向对象设计基本原则：SOLID原则  单一责任原则 The Single Responsibility Principle 开放封闭原则 The Open Closed Principle
+ 里氏替换原则 Liskov Substitution Principle
+ 接口分离原则 The Interface Segregation Principle
+ 依赖倒置原则 The Dependency Inversion Principle
+  6种类的关系 23种模式-GOF核心设计模式  创建型模式：工厂方法模式、抽象工厂模式、单例模式、建造者模式、原型模式
+ 结构型模式：适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式 行为型模式：策略模式、模板方法模式、观察者模式、迭代子模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式
+  什么是设计模式  &amp;ldquo;每一个模式描述了一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心。这样，你就能一次又一次地使用该方案而不必做重复劳动。&amp;rdquo; -Christopher Alexander
+ 为什么要用设计模式 由于产品需求、开发团队、技术框架、市场环境等的变化，设计面向对象软件比较困难，设计可复用的面向对象软件难上加难。有了变化怎么办？改呗！要是能少改点就好了，于是有了可复用。</description>
+    </item>
+    
+    <item>
+      <title>1.两数之和</title>
+      <link>https://wangsong.site/leetcode-log/1.%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</link>
+      <pubDate>Fri, 03 Apr 2020 14:55:48 +0800</pubDate>
+      
+      <guid>https://wangsong.site/leetcode-log/1.%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</guid>
+      <description>通过率：48.0%
+题目描述  给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。 
+示例：  给定 nums = [2, 7, 11, 15], target = 9 因为 nums[0] + nums[1] = 2 + 7 = 9 所以返回 [0, 1] 
+执行用时108ms 内存消耗40.1MB ↓
+class Solution { public int[] twoSum(int[] nums, int target) { for(int i=0;i&amp;lt;nums.length;i++){ for(int j=i+1;j&amp;lt;nums.length;j++){ if(target==nums[i]+nums[j]){ return new int[]{i,j}; } } } return new int[]{}; } }  执行用时39ms 内存消耗37.2MB ↓</description>
+    </item>
     
     <item>
       <title>踩坑记录</title>
