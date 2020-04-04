@@ -3,12 +3,12 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://wangsong.site/leetcode-log/</loc>
+    <loc>https://wangsong.site/learn/</loc>
     <lastmod>2020-04-04T14:13:12+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://wangsong.site/leetcode-log/words/</loc>
+    <loc>https://wangsong.site/learn/words/</loc>
     <lastmod>2020-04-04T14:13:12+08:00</lastmod>
   </url>
   
@@ -18,17 +18,22 @@
   </url>
   
   <url>
-    <loc>https://wangsong.site/designpartens/</loc>
+    <loc>https://wangsong.site/design-partens/</loc>
     <lastmod>2020-04-04T12:23:43+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://wangsong.site/designpartens/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/</loc>
+    <loc>https://wangsong.site/design-partens/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/</loc>
     <lastmod>2020-04-04T12:23:43+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://wangsong.site/leetcode-log/1.%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</loc>
+    <lastmod>2020-04-03T14:55:48+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wangsong.site/leetcode-log/</loc>
     <lastmod>2020-04-03T14:55:48+08:00</lastmod>
   </url>
   

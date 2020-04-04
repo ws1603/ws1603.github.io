@@ -13,7 +13,7 @@
 <base href="https://wangsong.site/">
 
 <title>
-  小松的学习笔记 - 1.两数之和 
+  小松的学习笔记 - 学习目标 
 </title>
 
 <meta name="generator" content="Hugo 0.58.3" />
@@ -44,13 +44,13 @@
 
 
 <header class="row text-left title">
-  <h1 class="title">1.两数之和</h1>
+  <h1 class="title">学习目标</h1>
 </header>
 <section id="category-pane" class="row meta">
   
   <div class="col-md-12">
     <h6 class="text-left meta">
-        PUBLISHED ON APR 3, 2020 
+        PUBLISHED ON APR 4, 2020 
       
     </h6>
   </div>
@@ -61,113 +61,45 @@
     
     
 
-<p>通过率：48.0%</p>
+<h3 id="面向对象的三大特性">面向对象的三大特性</h3>
 
-<h4 id="题目描述">题目描述</h4>
+<ul>
+<li>封装：隐藏内部实现</li>
+<li>继承：复用现有代码</li>
+<li>多态：改写对象行为</li>
+</ul>
 
-<p><code>
-给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。       
-你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
-</code></p>
+<h3 id="面向对象设计基本原则-solid原则">面向对象设计基本原则：SOLID原则</h3>
 
-<h4 id="示例">示例：</h4>
+<ul>
+<li>单一责任原则    The Single Responsibility Principle</li>
+<li>开放封闭原则    The Open Closed Principle<br /></li>
+<li>里氏替换原则    Liskov Substitution Principle<br /></li>
+<li>接口分离原则    The Interface Segregation Principle<br /></li>
+<li>依赖倒置原则    The Dependency Inversion Principle<br /></li>
+</ul>
 
-<p><code>
-给定 nums = [2, 7, 11, 15], target = 9      
-因为 nums[0] + nums[1] = 2 + 7 = 9      
-所以返回 [0, 1]
-</code></p>
+<h3 id="6种类的关系">6种类的关系</h3>
 
-<p>执行用时108ms 内存消耗40.1MB     ↓</p>
+<p><img src="6种类的关系.jpg" alt="6种类的关系" /></p>
 
-<pre><code class="language-java">class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        for(int i=0;i&lt;nums.length;i++){
-            for(int j=i+1;j&lt;nums.length;j++){
-                if(target==nums[i]+nums[j]){
-                    return new int[]{i,j};
-                }
-            }
-        }
-        return new int[]{};
-    }
-}
-</code></pre>
+<h3 id="23种模式-gof核心设计模式">23种模式-GOF核心设计模式</h3>
 
-<p>执行用时39ms 内存消耗37.2MB     ↓</p>
+<ul>
+<li>创建型模式：工厂方法模式、抽象工厂模式、单例模式、建造者模式、原型模式<br /></li>
+<li>结构型模式：适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式</li>
+<li>行为型模式：策略模式、模板方法模式、观察者模式、迭代子模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式<br /></li>
+</ul>
 
-<pre><code class="language-java">class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        int[] result = new int[2];
-        for(int i=0;i&lt;nums.length;i++){
-            for(int j=i+1;j&lt;nums.length;j++){
-                if(nums[i]+nums[j]==target){
-                    result[0] = i;
-                    result[1] = j;
-                }
-            }
-        }
-                return result;
-    }
-}
-</code></pre>
+<h4 id="什么是设计模式">什么是设计模式</h4>
 
-<h4 id="官方解答">官方解答</h4>
+<blockquote>
+<p>&ldquo;每一个模式描述了一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心。这样，你就能一次又一次地使用该方案而不必做重复劳动。&rdquo;    -Christopher Alexander</p>
+</blockquote>
 
-<p>法一：暴力法    <code>时间复杂度O(n²) 空间复杂度O(1)</code><br />
-执行用时71ms 内存消耗40.3MB  ↓</p>
+<h4 id="为什么要用设计模式">为什么要用设计模式</h4>
 
-<pre><code class="language-java">class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        for (int i = 0; i &lt; nums.length; i++) {
-            for (int j = i + 1; j &lt; nums.length; j++) {
-                if (nums[j] == target - nums[i]) {
-                    return new int[] { i, j };
-                }
-            }
-        }
-        throw new IllegalArgumentException(&quot;No two sum solution&quot;);
-    }
-}
-</code></pre>
-
-<p>法二：两遍哈希表    <code>时间复杂度O(n) 空间复杂度O(n)</code><br />
-执行用时4ms 内存消耗36.5MB  ↓</p>
-
-<pre><code class="language-java">class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();
-        for (int i = 0; i &lt; nums.length; i++) {
-            map.put(nums[i], i);
-        }
-        for (int i = 0; i &lt; nums.length; i++) {
-            int complement = target - nums[i];
-            if (map.containsKey(complement) &amp;&amp; map.get(complement) != i) {
-                return new int[] { i, map.get(complement) };
-            }
-        }
-        throw new IllegalArgumentException(&quot;No two sum solution&quot;);
-    }
-}
-</code></pre>
-
-<p>法三：一遍哈希表   <code>时间复杂度O(n) 空间复杂度O(n)</code><br />
-执行用时3ms 内存消耗36.9MB  ↓</p>
-
-<pre><code class="language-java">class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();
-        for (int i = 0; i &lt; nums.length; i++) {
-            int complement = target - nums[i];
-            if (map.containsKey(complement)) {
-                return new int[] { map.get(complement), i };
-            }
-            map.put(nums[i], i);
-        }
-        throw new IllegalArgumentException(&quot;No two sum solution&quot;);
-    }
-}
-</code></pre>
+<p>由于产品需求、开发团队、技术框架、市场环境等的变化，设计面向对象软件比较困难，设计可复用的面向对象软件难上加难。有了变化怎么办？改呗！要是能少改点就好了，于是有了可复用。</p>
 
   </div>
 </section>

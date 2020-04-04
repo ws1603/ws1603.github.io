@@ -13,10 +13,10 @@
     
     <item>
       <title>Words</title>
-      <link>https://wangsong.site/leetcode-log/words/</link>
+      <link>https://wangsong.site/learn/words/</link>
       <pubDate>Sat, 04 Apr 2020 14:13:12 +0800</pubDate>
       
-      <guid>https://wangsong.site/leetcode-log/words/</guid>
+      <guid>https://wangsong.site/learn/words/</guid>
       <description>Unit 1 secure
 gear
 suite
@@ -82,10 +82,10 @@ critical</description>
     
     <item>
       <title>学习目标</title>
-      <link>https://wangsong.site/designpartens/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/</link>
+      <link>https://wangsong.site/design-partens/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/</link>
       <pubDate>Sat, 04 Apr 2020 12:23:43 +0800</pubDate>
       
-      <guid>https://wangsong.site/designpartens/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/</guid>
+      <guid>https://wangsong.site/design-partens/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/</guid>
       <description>面向对象的三大特性  封装：隐藏内部实现 继承：复用现有代码 多态：改写对象行为  面向对象设计基本原则：SOLID原则  单一责任原则 The Single Responsibility Principle 开放封闭原则 The Open Closed Principle
  里氏替换原则 Liskov Substitution Principle
  接口分离原则 The Interface Segregation Principle
